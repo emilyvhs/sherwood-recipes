@@ -5,15 +5,18 @@ import SiteTitle from "../components/SiteTitle";
 export default function Home() {
     return (
         <div>
-            <SiteTitle></SiteTitle>
-            <Nav></Nav>
+            <header>
+                <SiteTitle></SiteTitle>
+                <Nav></Nav>
+            </header>            
 
             <section>
                 <p className="text-center">Let's meal plan together!</p>
             </section>
 
-            <Calendar></Calendar>
-        </div>
-        
+            <section>
+                <Calendar></Calendar>
+            </section>
+        </div>        
     )
 }

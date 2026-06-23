@@ -1,15 +1,11 @@
-import SiteTitle from "../components/SiteTitle";
-import Nav from "../components/Nav";
 import H2 from "../atoms/H2";
 import { Link } from "react-router-dom";
+import Header from "../components/Header";
 
 export default function Recipes() {
     return (
         <div>
-            <header>
-                <SiteTitle></SiteTitle>
-                <Nav></Nav>
-            </header>
+            <Header></Header>
 
             <section className="flex mb-6">
                 <H2 text="Add new recipe"></H2>

@@ -1,14 +1,10 @@
 import Calendar from "../components/Calendar";
-import Nav from "../components/Nav";
-import SiteTitle from "../components/SiteTitle";
+import Header from "../components/Header";
 
 export default function Home() {
     return (
         <div>
-            <header>
-                <SiteTitle></SiteTitle>
-                <Nav></Nav>
-            </header>            
+            <Header></Header>            
 
             <section>
                 <p className="text-center">Let's meal plan together!</p>

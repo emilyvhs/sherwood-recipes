@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Recipes from "./pages/Recipes";
+import Add from "./pages/Add";
 
 export default function App() {
   return (
@@ -8,6 +9,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />}/>
         <Route path="/recipes" element={<Recipes />}/>
+        <Route path="/add" element={<Add />}/>
       </Routes>
     </BrowserRouter>
   )

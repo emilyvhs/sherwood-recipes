@@ -1,8 +1,24 @@
 import H2 from "../atoms/H2";
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
+import { useEffect, useState } from "react";
 
 export default function Recipes() {
+
+    const [recipes, setRecipes] = useState([]);
+
+    function getRecipes() {
+        fetch('http://localhost:3000/api/recipes')
+            .then(res => res.json())
+            .then(recipes => {
+                setRecipes(recipes.data);                
+            });
+    };
+
+    useEffect(getRecipes, []);
+
+    console.log(recipes);
+
     return (
         <div>
             <Header></Header>
@@ -19,16 +35,21 @@ export default function Recipes() {
                 <div className="grid grid-cols-2">
                     <div>
                         <H2 text="Recipe"></H2>
-                        <p>Meal</p>
+                        {recipes.map(recipe => {
+                            return (
+                                <p>{recipe.name}</p>
+                            )
+                        })}
                     </div>
                     <div>
                         <H2 text="Last cooked"></H2>
-                        <p>Date</p>
+                        {recipes.map(recipe => {
+                            return (
+                                <p>{recipe.lastCooked.split('T')[0]}</p>
+                            )
+                        })}                       
                     </div>
                 </div>
-        
-                
-
                 
             </section>
         </div>

@@ -37,7 +37,7 @@ export default function Recipes() {
                         <H2 text="Recipe"></H2>
                         {recipes.map(recipe => {
                             return (
-                                <p>{recipe.name}</p>
+                                <Link key={recipe._id} to={`/recipes/${recipe._id}`}><p>{recipe.name}</p></Link>
                             )
                         })}
                     </div>
@@ -53,5 +53,5 @@ export default function Recipes() {
                 
             </section>
         </div>
-    )
-}
+    );
+};

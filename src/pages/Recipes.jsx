@@ -17,8 +17,6 @@ export default function Recipes() {
 
     useEffect(getRecipes, []);
 
-    console.log(recipes);
-
     return (
         <div>
             <Header></Header>

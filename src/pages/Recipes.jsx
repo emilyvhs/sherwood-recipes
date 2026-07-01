@@ -8,7 +8,7 @@ export default function Recipes() {
     const [recipes, setRecipes] = useState([]);
 
     function getRecipes() {
-        fetch('http://localhost:3000/api/recipes')
+        fetch(`${process.env.HOST}/api/recipes`)
             .then(res => res.json())
             .then(recipes => {
                 setRecipes(recipes.data);                

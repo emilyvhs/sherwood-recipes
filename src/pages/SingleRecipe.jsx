@@ -9,7 +9,7 @@ export default function SingleRecipe() {
     const [recipe, setRecipe] = useState("");
 
     function getRecipe() {
-        fetch(`http://localhost:3000/api/recipes/${_id}`)
+        fetch(`${process.env.HOST}/api/recipes/${_id}`)
             .then(res => res.json())
             .then(recipe => {
                 setRecipe(recipe.data);

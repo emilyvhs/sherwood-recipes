@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../components/Header";
 
 
@@ -8,9 +8,18 @@ export default function Add() {
     const [name, setName] = useState("");
     const [portions, setPortions] = useState(0);
     const [ingredients, setIngredients] = useState([]);
+    const [chefOptions, setChefOptions] = useState([]);
     const [chefNames, setChefNames] = useState([]);
     const [recipeLocation, setRecipeLocation] = useState("");
     const [lastCooked, setLastCooked] = useState();
+
+    function getChefOptions() {
+        fetch(`${process.env.HOST}/api/chefs`)
+            .then(res => res.json())
+            .then(chefs => {
+                setChefOptions(chefs.data);
+            });
+    };
 
     function addIngredient(e){
         e.preventDefault();
@@ -56,12 +65,14 @@ export default function Add() {
             body: JSON.stringify(data)
         };
 
-        fetch('http://localhost:3000/api/recipes/add', requestOptions)
+        fetch(`${process.env.HOST}/api/recipes/add`, requestOptions)
             .then(res => res.json())
             .then(data => {
-                console.log(data.message)
-            })
-    }
+                console.log(data.message);
+            });
+    };
+
+    useEffect(getChefOptions, []);
 
     return (
         <div>

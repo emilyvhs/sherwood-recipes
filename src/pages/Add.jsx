@@ -140,7 +140,16 @@ export default function Add() {
                     </div>
                 </div>
 
-                <p className="mb-4">Who can cook this recipe?</p>
+                <p className="mb-4">Who can cook this recipe?</p>            
+                {chefOptions.map(chef => {
+                    return (
+                        <div>                            
+                            <input type="checkbox" name={chef._id} id={chef._id} />
+                            <label htmlFor={chef._id} key={chef._id}>{chef.name}
+                            </label>
+                        </div>
+                    )
+                })}              
 
                 <label htmlFor="recipeLocation">Where can this recipe be found?</label>
                 <input onChange={(e) => {setRecipeLocation(e.target.value)}}

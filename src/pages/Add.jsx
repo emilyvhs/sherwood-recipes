@@ -8,7 +8,8 @@ export default function Add() {
     const [name, setName] = useState("");
     const [portions, setPortions] = useState(0);
     const [ingredients, setIngredients] = useState([]);
-    const [chefOptions, setChefOptions] = useState([]);
+    const [person, setPerson] = useState("");
+    const [chefOptions, setChefOptions] = useState([]);      
     const [chefNames, setChefNames] = useState([]);
     const [recipeLocation, setRecipeLocation] = useState("");
     const [lastCooked, setLastCooked] = useState();
@@ -21,7 +22,7 @@ export default function Add() {
             });
     };
 
-    function addIngredient(e){
+    function addIngredient(e) {
         e.preventDefault();
         
         let ingredientValue = document.getElementById('ingredient').value.trim();
@@ -43,7 +44,20 @@ export default function Add() {
             document.getElementById('ingredient').value = "";
             document.getElementById('quantity').value = "";
         };
-    }; 
+    };    
+
+    function addChefName(e) {
+        
+        if(e.target.checked) {
+             setChefNames([...chefNames, e.target.value]);            
+        } else {
+            chefNames.map(name => { 
+                setChefNames(chefNames.filter(a =>
+                    a !== e.target.value
+                ));
+            });
+        };
+    };
 
     function addRecipe() {
 
@@ -52,6 +66,7 @@ export default function Add() {
             "portions": portions,
             "ingredients": ingredients,
             "recipeLocation": recipeLocation,
+            "chefNames": chefNames,
             "lastCooked": lastCooked
         };
 
@@ -73,6 +88,8 @@ export default function Add() {
     };
 
     useEffect(getChefOptions, []);
+
+    console.log(chefNames)
 
     return (
         <div>
@@ -144,7 +161,7 @@ export default function Add() {
                 {chefOptions.map(chef => {
                     return (
                         <div>                            
-                            <input type="checkbox" name={chef._id} id={chef._id} />
+                            <input onChange={addChefName} type="checkbox" name={chef._id} id={chef._id} className="chefNames" value={chef.name} />
                             <label htmlFor={chef._id} key={chef._id}>{chef.name}
                             </label>
                         </div>

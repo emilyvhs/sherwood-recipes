@@ -8,12 +8,12 @@ export default function Add() {
     const [name, setName] = useState("");
     const [portions, setPortions] = useState(0);
     const [ingredients, setIngredients] = useState([]);
-    const [person, setPerson] = useState("");
     const [chefOptions, setChefOptions] = useState([]);      
     const [chefNames, setChefNames] = useState([]);
     const [recipeLocation, setRecipeLocation] = useState("");
     const [lastCooked, setLastCooked] = useState();
 
+    // Fetch list of possible chef names from db
     function getChefOptions() {
         fetch(`${process.env.HOST}/api/chefs`)
             .then(res => res.json())
@@ -23,6 +23,7 @@ export default function Add() {
     };
 
     function addIngredient(e) {
+
         e.preventDefault();
         
         let ingredientValue = document.getElementById('ingredient').value.trim();
@@ -44,6 +45,7 @@ export default function Add() {
             document.getElementById('ingredient').value = "";
             document.getElementById('quantity').value = "";
         };
+
     };    
 
     function addChefName(e) {
@@ -51,12 +53,13 @@ export default function Add() {
         if(e.target.checked) {
              setChefNames([...chefNames, e.target.value]);            
         } else {
-            chefNames.map(name => { 
+            chefNames.map(() => { 
                 setChefNames(chefNames.filter(a =>
                     a !== e.target.value
                 ));
             });
         };
+
     };
 
     function addRecipe() {
@@ -85,11 +88,10 @@ export default function Add() {
             .then(data => {
                 console.log(data.message);
             });
+
     };
 
     useEffect(getChefOptions, []);
-
-    console.log(chefNames)
 
     return (
         <div>
@@ -157,18 +159,19 @@ export default function Add() {
                     </div>
                 </div>
 
-                <p className="mb-4">Who can cook this recipe?</p>            
+                <p>Who can cook this recipe?</p>            
                 {chefOptions.map(chef => {
                     return (
-                        <div>                            
-                            <input onChange={addChefName} type="checkbox" name={chef._id} id={chef._id} className="chefNames" value={chef.name} />
-                            <label htmlFor={chef._id} key={chef._id}>{chef.name}
+                        <div className="flex items-center">                            
+                            <input onChange={addChefName} type="checkbox" name={chef._id} className="appearance-none w-4 h-4 bg-white rounded-sm border-1 border-rose-100 pl-2 py-1 shadow-sm shadow-olive-300 focus:outline focus:outline-rose-300 checked:bg-rose-300 mr-1" value={chef.name} />
+                            <label htmlFor={chef._id} key={chef._id}>
+                                {chef.name}
                             </label>
                         </div>
                     )
                 })}              
 
-                <label htmlFor="recipeLocation">Where can this recipe be found?</label>
+                <label htmlFor="recipeLocation" className="mt-4">Where can this recipe be found?</label>
                 <input onChange={(e) => {setRecipeLocation(e.target.value)}}
                 type="text" name="recipeLocation" id="recipeLocation" placeholder="e.g. a link to a website / the name of a cookbook" required className="bg-white rounded-md border-1 border-rose-100 pl-2 py-1 shadow-sm shadow-olive-300 focus:outline focus:outline-rose-300 mb-4" />
 

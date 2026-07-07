@@ -8,6 +8,8 @@ export default function Recipes() {
     const [recipesData, setRecipesData] = useState([]);
     const [recipes, setRecipes] = useState([]);
 
+    
+
     function getRecipes() {
         fetch(`${process.env.HOST}/api/recipes`)
             .then(res => res.json())
@@ -17,13 +19,31 @@ export default function Recipes() {
     };
 
     function sortRecipesByLastCooked() {
+
+        let arrowLastCooked = document.getElementById('last-cooked-arrow');      
+        let arrowName = document.getElementById('name-arrow');
+
+        if (arrowName.classList.contains('rotate-90')) {
+            arrowName.classList.remove('rotate-90');
+            arrowLastCooked.classList.add('rotate-90');
+        };
+
         const sorted = [...recipesData].sort((a, b) => {
             return b.lastCooked.localeCompare(a.lastCooked)
-        });
+        });        
         setRecipes(sorted);
     };
 
     function sortRecipesByName() {
+
+        let arrowLastCooked = document.getElementById('last-cooked-arrow');      
+        let arrowName = document.getElementById('name-arrow');
+
+        if (arrowLastCooked.classList.contains('rotate-90')) {
+            arrowLastCooked.classList.remove('rotate-90');
+            arrowName.classList.add('rotate-90');
+        };
+        
         const sorted = [...recipesData].sort((a, b) => {
             return a.name.localeCompare(b.name)
         });
@@ -46,8 +66,9 @@ export default function Recipes() {
 
                 <div className="grid grid-cols-2">
                     <div>
-                        <button onClick={sortRecipesByName}>
+                        <button onClick={sortRecipesByName} className="cursor-pointer flex items-center gap-2">
                             <H2 text="Recipe"></H2>
+                            <div className="text-emerald-700 text-xl font-bold transition-transform duration-150 " id="name-arrow">▶</div>                           
                         </button>                        
                         {recipes.map(recipe => {
                             return (
@@ -56,8 +77,10 @@ export default function Recipes() {
                         })}
                     </div>
                     <div>
-                        <button onClick={sortRecipesByLastCooked}>
+                        <button onClick={sortRecipesByLastCooked} className="cursor-pointer flex items-center gap-2">
                             <H2 text="Last cooked" ></H2>
+                            <div className="text-emerald-700 text-xl font-bold transition-transform duration-150 rotate-90" id="last-cooked-arrow">▶</div>
+                            
                         </button>
                         {recipes.map(recipe => {
                             return (

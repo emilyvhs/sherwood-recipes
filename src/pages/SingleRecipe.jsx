@@ -7,7 +7,7 @@ import H3 from "../atoms/H3";
 export default function SingleRecipe() {
     
     const {_id} = useParams();
-    
+
     const [recipe, setRecipe] = useState("");
     const [name, setName] = useState("");
     const [portions, setPortions] = useState(0);
@@ -19,6 +19,21 @@ export default function SingleRecipe() {
     const [error, setError] = useState("");
 
     function getRecipe() {
+
+        let formsGroup = document.querySelectorAll(".forms-group");
+        let blocksGroup = document.querySelectorAll(".blocks-group");
+
+        formsGroup.forEach(form => {
+            if (!form.classList.contains("hidden")) {
+                form.classList.add("hidden");
+            }
+        });
+
+        blocksGroup.forEach(block => {
+            if (block.classList.contains("hidden")) {
+                block.classList.remove("hidden");
+            }
+        });
 
         fetch(`${process.env.HOST}/api/recipes/${_id}`)
             .then(res => res.json())
@@ -58,6 +73,37 @@ export default function SingleRecipe() {
         block.classList.toggle("hidden");
         
     };  
+
+    function addIngredient(e) {
+        e.preventDefault();
+        
+        let ingredientValue = document.getElementById('ingredient').value.trim();
+        let quantityValue = document.getElementById('quantity').value.trim();
+        let error = document.getElementById('ingredient-quantity-error');
+
+        if(!error.classList.contains("hidden")) {
+            error.classList.add("hidden");
+        };
+
+        if(!ingredientValue || ingredientValue === "") {
+            error.classList.remove("hidden");
+        } else if (!quantityValue || quantityValue === "") {
+            setIngredients([
+                ...ingredients,
+                { ingredient: ingredientValue, quantity: "n/a" }
+            ])
+
+            document.getElementById('ingredient').value = "";
+        } else {
+            setIngredients([
+                ...ingredients,
+                { ingredient: ingredientValue, quantity: quantityValue }
+            ]);            
+
+            document.getElementById('ingredient').value = "";
+            document.getElementById('quantity').value = "";
+        };
+    }
 
     function editRecipe(e) {
 
@@ -156,9 +202,60 @@ export default function SingleRecipe() {
                     })}
                 </div>
 
-                <form className="forms-group" id="ingredients-form">
+                <div className="forms-group hidden" id="ingredients-form">
+                    <form>
+                        <div className="flex gap-4 mb-1">
+                            <div className="w-[40%] truncate">
+                                {ingredients.map(ingredient => {
+                                    return (
+                                        <p className="bg-olive-200 rounded-md border-1 border-olive-300 pl-2 text-sm py-1 mb-1" key={ingredient.ingredient}>{ingredient.ingredient}</p>
+                                    )
+                                })}
+                            </div>  
+                            <div className="w-[40%]">
+                                {ingredients.map(ingredient => {                
+                                    return (
+                                        <p className="bg-olive-200 rounded-md border-1 border-olive-300 pl-2 text-sm py-1 mb-1" key={ingredient.ingredient}>{ingredient.quantity}</p>
+                                    )     
+                                })}
+                            </div>
+                            <div className="w-[20%]">
+                                {ingredients.map(ingredient => {
+                                    return (
+                                        <button onClick={() => {
+                                            setIngredients(
+                                                ingredients.filter(a => 
+                                                    a.ingredient !== ingredient.ingredient
+                                                )
+                                            )
+                                        }} key={ingredient.ingredient} id={ingredient.ingredient} className="bg-transparent rounded-md border-1 border-transparent pl-2 text-sm py-1 mb-1  font-bold text-rose-800 cursor-pointer">Remove</button>
+                                    )
+                                })}
+                            </div>
+                        </div>
 
-                </form>
+                        <div className="flex gap-4 mb-1 items-center">
+                            <div className="w-[40%]">
+                                <label htmlFor="ingredient" className="hidden">Ingredient</label> 
+                                <input type="text" name="ingredient" id="ingredient" placeholder="e.g. Tomatoes" className="bg-white rounded-md border-1 border-rose-100 pl-2 py-1 shadow-sm shadow-olive-300 focus:outline focus:outline-rose-300 mb-1 field-sizing-fixed w-[100%]" />
+                            </div>
+                            <div className="w-[40%]">
+                                <label htmlFor="quantity" className="hidden">Quantity</label>
+                                <input type="text" name="quantity" id="quantity" placeholder="e.g. 200g" className=" bg-white rounded-md border-1 border-rose-100 pl-2 py-1 shadow-sm shadow-olive-300 focus:outline focus:outline-rose-300 mb-1 field-sizing-fixed w-[100%]" />
+                            </div>
+                             <div className="w-[20%]">
+                                <button aria-label="Add ingredient" onClick={addIngredient} className="text-rose-500 font-semibold hover:text-rose-700 bg-rose-200 hover:bg-rose-300 px-2 mx-2 rounded-full pb-1 cursor-pointer h-[100%]">+</button>
+                            </div>
+                        </div>
+                        <p className="text-right text-rose-800 text-sm hidden mb-2" id="ingredient-quantity-error">Please input an ingredient to add it to the recipe!</p>
+                    </form>
+
+                    <div className="flex gap-2 justify-end">
+                        <button onClick={editRecipe} value="lastCooked" className="underline underline-offset-2 hover:decoration-wavy text-rose-700 hover:text-rose-500 cursor-pointer">Update</button>
+                        <button onClick={getRecipe} className="underline underline-offset-2 hover:decoration-wavy text-rose-700 hover:text-rose-500 cursor-pointer">Cancel</button> 
+                    </div>
+                </div>
+
                 <p id="ingredients-error-message" className="text-right text-rose-800 text-sm mb-2 hidden">{error}</p>
             </div>
 

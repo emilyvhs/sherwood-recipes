@@ -7,6 +7,7 @@ import H3 from "../atoms/H3";
 export default function SingleRecipe() {
     
     const {_id} = useParams();
+    
     const [recipe, setRecipe] = useState("");
     const [name, setName] = useState("");
     const [portions, setPortions] = useState(0);

@@ -5,8 +5,10 @@ import Header from "../components/Header";
 export default function Delete() {
 
     const {_id} = useParams();
+    
     const [name, setName] = useState("");
     const [error, setError] = useState("");
+
     let navigate = useNavigate();
 
     function getRecipeName() {

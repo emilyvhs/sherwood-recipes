@@ -10,9 +10,8 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />}/>
         <Route path="/recipes" element={<Recipes />}/>
-        <Route path="/recipes/:_id" element={<SingleRecipe />}/>
-        <Route path="/add" element={<Add />}/>
-        
+        <Route path="/recipes/:_id" element={<SingleRecipe />}/>   
+        <Route path="/add" element={<Add />}/>        
       </Routes>
     </BrowserRouter>
   )

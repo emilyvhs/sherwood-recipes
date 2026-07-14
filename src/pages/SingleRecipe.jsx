@@ -217,8 +217,8 @@ export default function SingleRecipe() {
                 </form>     
                 <p id="recipeLocation-error-message" className="text-right text-rose-800 text-sm mb-2 hidden">{error}</p>          
             </div>
-            
-                      
+
+            <Link to={`/delete/${_id}`} className="underline underline-offset-2 hover:decoration-wavy text-rose-700 hover:text-rose-500 cursor-pointer">Delete this recipe</Link> 
            
         </div>
     );

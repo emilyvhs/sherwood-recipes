@@ -20,6 +20,7 @@ export default function SingleRecipe() {
     const [lastCooked, setLastCooked] = useState();
 
     const [error, setError] = useState("");
+    const [checked, setChecked] = useState();
 
     function getChefOptions() {
         fetch(`${process.env.HOST}/api/chefs`)
@@ -27,6 +28,18 @@ export default function SingleRecipe() {
             .then(chefs => {
                 setChefOptions(chefs.data);
             });
+    };
+
+    function handleCheck() {
+        chefOptions.map(chef => {
+            if (chefNames.includes(chef.name)) {
+                chef.checked = true
+                setChecked([...chefOptions])
+            } else {
+                chef.checked = false
+                setChecked([...chefOptions])
+            }
+        });
     };
 
     function getRecipe() {
@@ -136,6 +149,8 @@ export default function SingleRecipe() {
                 ));
             });
         };
+
+        handleCheck();
     };
 
     function editRecipe(e) {
@@ -184,6 +199,7 @@ export default function SingleRecipe() {
 
     useEffect(getRecipe, []);
     useEffect(getChefOptions, []);
+    useEffect(handleCheck, [chefNames, chefOptions])  
 
     return (
         <div>
@@ -315,26 +331,18 @@ export default function SingleRecipe() {
                 
                 <form className="forms-group" id="chefNames-form">
                     <H3 text="Can be cooked by:"></H3>
-                    {chefOptions.map(chef => {
-                        if (chefNames.includes(chef.name)) {
-                            return (
-                                <div className="flex items-center" key={chef._id}>
-                                    <input onChange={addChefName} type="checkbox" name={chef._id} className="appearance-none w-4 h-4 bg-white rounded-sm border-1 border-rose-100 pl-2 py-1 shadow-sm shadow-olive-300 focus:outline focus:outline-rose-300 checked:bg-rose-300 mr-1" value={chef.name} defaultChecked />
-                                    <label htmlFor={chef._id}>
-                                        {chef.name}
-                                    </label>
-                                </div>
-                            )
-                        } else {
-                            return (
-                                <div className="flex items-center" key={chef._id}>
-                                    <input onChange={addChefName} type="checkbox" name={chef._id} className="appearance-none w-4 h-4 bg-white rounded-sm border-1 border-rose-100 pl-2 py-1 shadow-sm shadow-olive-300 focus:outline focus:outline-rose-300 checked:bg-rose-300 mr-1" value={chef.name} />
-                                    <label htmlFor={chef._id}>
-                                        {chef.name}
-                                    </label>
-                                </div>
-                            )
-                        }
+                    
+                    {checked?.map(chef => {
+                        
+                        return (
+                            <div className="flex items-center" key={chef._id}>
+                                <input onChange={addChefName} type="checkbox" name={chef._id} className="appearance-none w-4 h-4 bg-white rounded-sm border-1 border-rose-100 pl-2 py-1 shadow-sm shadow-olive-300 focus:outline focus:outline-rose-300 checked:bg-rose-300 mr-1" value={chef.name} defaultChecked={chef.checked} />
+                                <label htmlFor={chef._id}>
+                                    {chef.name}
+                                </label>
+                            </div>
+                        )
+                       
                     })}
                     <div className="flex gap-2 justify-end">
                         <button onClick={editRecipe} value="chefNames" className="underline underline-offset-2 hover:decoration-wavy text-rose-700 hover:text-rose-500 cursor-pointer">Update</button>

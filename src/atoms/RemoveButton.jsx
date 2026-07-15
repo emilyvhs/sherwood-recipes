@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 
-export default function RemoveButton({link, linkTo, onClick, value}) {
+export default function RemoveButton({link, linkTo, onClick, value, label}) {
 
     if (link === true) {
 
         return (
-            <Link to={linkTo} 
+            <Link to={linkTo} aria-label={label}
             className="flex justify-center 
             text-rose-500 hover:text-rose-700 font-bold 
             bg-rose-200 hover:bg-rose-300 
@@ -18,7 +18,7 @@ export default function RemoveButton({link, linkTo, onClick, value}) {
     } else {
 
         return (
-            <button onClick={onClick} value={value} 
+            <button aria-label={label} onClick={onClick} value={value} 
             className="flex justify-center 
             text-rose-500 hover:text-rose-700 font-bold 
             bg-rose-200 hover:bg-rose-300 

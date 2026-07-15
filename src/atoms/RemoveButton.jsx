@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export default function AddButton({link, linkTo, onClick, value}) {
+export default function RemoveButton({link, linkTo, onClick, value}) {
 
     if (link === true) {
 
@@ -11,7 +11,7 @@ export default function AddButton({link, linkTo, onClick, value}) {
             bg-rose-200 hover:bg-rose-300 
             w-[35px] h-[35px] text-[20px] leading-[34px]
             rounded-full">
-                +
+                -
             </Link>
         )
 
@@ -24,7 +24,7 @@ export default function AddButton({link, linkTo, onClick, value}) {
             bg-rose-200 hover:bg-rose-300 
             w-[35px] h-[35px] text-[20px] leading-[34px]
             rounded-full cursor-pointer">
-                +
+                -
             </button>
         )
 

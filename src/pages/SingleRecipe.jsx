@@ -12,11 +12,20 @@ export default function SingleRecipe() {
     const [name, setName] = useState("");
     const [portions, setPortions] = useState(0);
     const [ingredients, setIngredients] = useState([]);
+    const [chefOptions, setChefOptions] = useState([]);   
     const [chefNames, setChefNames] = useState([]);
     const [recipeLocation, setRecipeLocation] = useState("Unknown");
     const [lastCooked, setLastCooked] = useState();
 
     const [error, setError] = useState("");
+
+    function getChefOptions() {
+        fetch(`${process.env.HOST}/api/chefs`)
+            .then(res => res.json())
+            .then(chefs => {
+                setChefOptions(chefs.data);
+            });
+    };
 
     function getRecipe() {
 
@@ -103,7 +112,19 @@ export default function SingleRecipe() {
             document.getElementById('ingredient').value = "";
             document.getElementById('quantity').value = "";
         };
-    }
+    };
+
+    function addChefName(e) {
+        if(e.target.checked) {
+             setChefNames([...chefNames, e.target.value]);            
+        } else {
+            chefNames.map(() => { 
+                setChefNames(chefNames.filter(a =>
+                    a !== e.target.value
+                ));
+            });
+        };
+    };
 
     function editRecipe(e) {
 
@@ -150,6 +171,7 @@ export default function SingleRecipe() {
     };    
 
     useEffect(getRecipe, []);
+    useEffect(getChefOptions, []);
 
     return (
         <div>
@@ -160,7 +182,7 @@ export default function SingleRecipe() {
                     <H2 text={name}></H2>
                     <button aria-label="Edit name" className="cursor-pointer" onClick={showEditor} value="name">✎</button>
                 </div>
-                <form className="flex justify-center gap-2 hidden forms-group" id="name-form">                   
+                <form className="flex justify-center gap-2 forms-group" id="name-form">                   
                     <label htmlFor="name" className="hidden">Name of recipe</label>
                     <input onChange={(e) => setName(e.target.value)} 
                     type="text" name="name" id="name" placeholder={name} className="bg-white rounded-md border-1 border-rose-100 pl-2 py-1 shadow-sm shadow-olive-300 focus:outline focus:outline-rose-300" />
@@ -175,7 +197,7 @@ export default function SingleRecipe() {
                     <H3 text={`Serves ${portions}`}></H3>
                     <button aria-label="Edit portions" className="cursor-pointer" onClick={showEditor} value="portions">✎</button>
                 </div>
-                <form className="flex justify-center hidden gap-2 forms-group" id="portions-form">                    
+                <form className="flex justify-center gap-2 forms-group" id="portions-form">                    
                     <div className="inline-block self-center"><H3 text="Serves "></H3></div>
                     <label htmlFor="portions" className="hidden">Number of portions</label>
                     <input onChange={(e) => setPortions(e.target.value)} 
@@ -201,61 +223,59 @@ export default function SingleRecipe() {
                         )
                     })}
                 </div>
-
-                <div className="forms-group hidden" id="ingredients-form">
-                    <form>
-                        <div className="flex gap-4 mb-1">
-                            <div className="w-[40%] truncate">
-                                {ingredients.map(ingredient => {
-                                    return (
-                                        <p className="bg-olive-200 rounded-md border-1 border-olive-300 pl-2 text-sm py-1 mb-1" key={ingredient.ingredient}>{ingredient.ingredient}</p>
-                                    )
-                                })}
-                            </div>  
-                            <div className="w-[40%]">
-                                {ingredients.map(ingredient => {                
-                                    return (
-                                        <p className="bg-olive-200 rounded-md border-1 border-olive-300 pl-2 text-sm py-1 mb-1" key={ingredient.ingredient}>{ingredient.quantity}</p>
-                                    )     
-                                })}
-                            </div>
-                            <div className="w-[20%]">
-                                {ingredients.map(ingredient => {
-                                    return (
-                                        <button onClick={() => {
-                                            setIngredients(
-                                                ingredients.filter(a => 
-                                                    a.ingredient !== ingredient.ingredient
-                                                )
+                
+                <form className="forms-group" id="ingredients-form">
+                    <H3 text="Ingredients"></H3>
+                    <div className="flex gap-4 mt-1">
+                        <div className="w-[40%] truncate">
+                            {ingredients.map(ingredient => {
+                                return (
+                                    <p className="bg-olive-200 rounded-md border-1 border-olive-300 pl-2 text-sm py-1 mb-1" key={ingredient.ingredient}>{ingredient.ingredient}</p>
+                                )
+                            })}
+                        </div>  
+                        <div className="w-[40%]">
+                            {ingredients.map(ingredient => {                
+                                return (
+                                    <p className="bg-olive-200 rounded-md border-1 border-olive-300 pl-2 text-sm py-1 mb-1" key={ingredient.ingredient}>{ingredient.quantity}</p>
+                                )     
+                            })}
+                        </div>
+                        <div className="flex flex-col w-[20%]">
+                            {ingredients.map(ingredient => {
+                                return (                            
+                                    <button aria-label="Remove ingredient" onClick={() => {
+                                        setIngredients(
+                                            ingredients.filter(a => 
+                                                a.ingredient !== ingredient.ingredient
                                             )
-                                        }} key={ingredient.ingredient} id={ingredient.ingredient} className="bg-transparent rounded-md border-1 border-transparent pl-2 text-sm py-1 mb-1  font-bold text-rose-800 cursor-pointer">Remove</button>
-                                    )
-                                })}
-                            </div>
+                                        )
+                                    }} key={ingredient.ingredient} id={ingredient.ingredient} className="text-rose-500 hover:text-rose-700 bg-rose-200 hover:bg-rose-300 font-bold rounded-full border-1 border-transparent text-sm py-1 mb-1 cursor-pointer">-</button>
+                                )
+                            })}
                         </div>
+                    </div>
 
-                        <div className="flex gap-4 mb-1 items-center">
-                            <div className="w-[40%]">
-                                <label htmlFor="ingredient" className="hidden">Ingredient</label> 
-                                <input type="text" name="ingredient" id="ingredient" placeholder="e.g. Tomatoes" className="bg-white rounded-md border-1 border-rose-100 pl-2 py-1 shadow-sm shadow-olive-300 focus:outline focus:outline-rose-300 mb-1 field-sizing-fixed w-[100%]" />
-                            </div>
-                            <div className="w-[40%]">
-                                <label htmlFor="quantity" className="hidden">Quantity</label>
-                                <input type="text" name="quantity" id="quantity" placeholder="e.g. 200g" className=" bg-white rounded-md border-1 border-rose-100 pl-2 py-1 shadow-sm shadow-olive-300 focus:outline focus:outline-rose-300 mb-1 field-sizing-fixed w-[100%]" />
-                            </div>
-                             <div className="w-[20%]">
-                                <button aria-label="Add ingredient" onClick={addIngredient} className="text-rose-500 font-semibold hover:text-rose-700 bg-rose-200 hover:bg-rose-300 px-2 mx-2 rounded-full pb-1 cursor-pointer h-[100%]">+</button>
-                            </div>
+                    <div className="flex gap-4 mb-1 items-center">
+                        <div className="w-[40%]">
+                            <label htmlFor="ingredient" className="hidden">Ingredient</label> 
+                            <input type="text" name="ingredient" id="ingredient" placeholder="e.g. Tomatoes" className="bg-white rounded-md border-1 border-rose-100 pl-2 py-1 shadow-sm shadow-olive-300 focus:outline focus:outline-rose-300 mb-1 field-sizing-fixed w-[100%]" />
                         </div>
-                        <p className="text-right text-rose-800 text-sm hidden mb-2" id="ingredient-quantity-error">Please input an ingredient to add it to the recipe!</p>
-                    </form>
+                        <div className="w-[40%]">
+                            <label htmlFor="quantity" className="hidden">Quantity</label>
+                            <input type="text" name="quantity" id="quantity" placeholder="e.g. 200g" className=" bg-white rounded-md border-1 border-rose-100 pl-2 py-1 shadow-sm shadow-olive-300 focus:outline focus:outline-rose-300 mb-1 field-sizing-fixed w-[100%]" />
+                        </div>
+                            <div className="w-[20%]">
+                            <button aria-label="Add ingredient" onClick={addIngredient} className="text-rose-500 font-semibold hover:text-rose-700 bg-rose-200 hover:bg-rose-300 px-2 mx-2 rounded-full pb-1 cursor-pointer h-[100%]">+</button>
+                        </div>
+                    </div>
+                    <p className="text-right text-rose-800 text-sm hidden mb-2" id="ingredient-quantity-error">Please input an ingredient to add it to the recipe!</p>
 
                     <div className="flex gap-2 justify-end">
-                        <button onClick={editRecipe} value="lastCooked" className="underline underline-offset-2 hover:decoration-wavy text-rose-700 hover:text-rose-500 cursor-pointer">Update</button>
+                        <button onClick={editRecipe} value="ingredients" className="underline underline-offset-2 hover:decoration-wavy text-rose-700 hover:text-rose-500 cursor-pointer">Update</button>
                         <button onClick={getRecipe} className="underline underline-offset-2 hover:decoration-wavy text-rose-700 hover:text-rose-500 cursor-pointer">Cancel</button> 
                     </div>
-                </div>
-
+                </form>
                 <p id="ingredients-error-message" className="text-right text-rose-800 text-sm mb-2 hidden">{error}</p>
             </div>
 
@@ -265,7 +285,7 @@ export default function SingleRecipe() {
                     <p>{lastCooked}</p>
                     <button aria-label="Edit last cooked date" className="cursor-pointer pl-1" onClick={showEditor} value="lastCooked">✎</button>
                 </div>
-                <form className="flex gap-2 forms-group hidden" id="lastCooked-form">
+                <form className="flex gap-2 forms-group" id="lastCooked-form">
                     <div className="inline-block self-center"><H3 text="Last cooked: "></H3></div>
                     <label htmlFor="lastCooked" className="hidden">Last cooked</label>
                     <input onChange={(e) => setLastCooked(e.target.value)}
@@ -294,7 +314,34 @@ export default function SingleRecipe() {
                     <button aria-label="Edit who can cook this recipe" className="cursor-pointer pl-1" onClick={showEditor} value="chefNames">✎</button>
                 </div>
                 
-
+                <form className="forms-group" id="chefNames-form">
+                    <H3 text="Can be cooked by:"></H3>
+                    {chefOptions.map(chef => {
+                        if (chefNames.includes(chef.name)) {
+                            return (
+                                <div className="flex items-center" key={chef._id}>
+                                    <input onChange={addChefName} type="checkbox" name={chef._id} className="appearance-none w-4 h-4 bg-white rounded-sm border-1 border-rose-100 pl-2 py-1 shadow-sm shadow-olive-300 focus:outline focus:outline-rose-300 checked:bg-rose-300 mr-1" value={chef.name} defaultChecked />
+                                    <label htmlFor={chef._id}>
+                                        {chef.name}
+                                    </label>
+                                </div>
+                            )
+                        } else {
+                            return (
+                                <div className="flex items-center" key={chef._id}>
+                                    <input onChange={addChefName} type="checkbox" name={chef._id} className="appearance-none w-4 h-4 bg-white rounded-sm border-1 border-rose-100 pl-2 py-1 shadow-sm shadow-olive-300 focus:outline focus:outline-rose-300 checked:bg-rose-300 mr-1" value={chef.name} />
+                                    <label htmlFor={chef._id}>
+                                        {chef.name}
+                                    </label>
+                                </div>
+                            )
+                        }
+                    })}
+                    <div className="flex gap-2 justify-end">
+                        <button onClick={editRecipe} value="chefNames" className="underline underline-offset-2 hover:decoration-wavy text-rose-700 hover:text-rose-500 cursor-pointer">Update</button>
+                        <button onClick={getRecipe} className="underline underline-offset-2 hover:decoration-wavy text-rose-700 hover:text-rose-500 cursor-pointer">Cancel</button> 
+                    </div>
+                </form>
                 
                 <p id="chefNames-error-message" className="text-right text-rose-800 text-sm mb-2 hidden">{error}</p>
             </div>            
@@ -305,7 +352,7 @@ export default function SingleRecipe() {
                     <p>{recipeLocation}</p>
                     <button aria-label="Edit recipe location" className="cursor-pointer pl-1" onClick={showEditor} value="recipeLocation">✎</button>
                 </div>
-                <form className="flex gap-2 forms-group hidden" id="recipeLocation-form">
+                <form className="flex gap-2 forms-group" id="recipeLocation-form">
                     <div className="inline-block self-center"><H3 text="Recipe location: "></H3></div>
                     <label htmlFor="recipeLocation" className="hidden">Recipe location</label>
                     <input onChange={(e) => setRecipeLocation(e.target.value)}

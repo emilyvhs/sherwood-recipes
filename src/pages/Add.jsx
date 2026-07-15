@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import Header from "../components/Header";
+import AddButton from "../atoms/AddButton";
+import RemoveButton from "../atoms/RemoveButton";
 import { useNavigate } from "react-router-dom";
 
 export default function Add() {
@@ -65,6 +67,16 @@ export default function Add() {
         };
 
     };    
+
+    function removeIngredient(e) {
+        e.preventDefault();
+
+        ingredients.map(ingredient => {
+            setIngredients(ingredients.filter(a => 
+                a.ingredient !== e.target.value
+            ));
+        });
+    };
 
     function addChefName(e) {
         
@@ -140,52 +152,36 @@ export default function Add() {
                 <input onChange={(e) => {setPortions(e.target.value)}} 
                 type="number" name="portions" id="portions" className="bg-white rounded-md border-1 border-rose-100 pl-2 py-1 shadow-sm shadow-olive-300 focus:outline focus:outline-rose-300 mb-4" />
 
-                <div className="grid grid-cols-2 gap-4 mb-1">
-                    <div className="flex flex-col">
-                        <label htmlFor="ingredient">Ingredient</label> 
-                        <input type="text" name="ingredient" id="ingredient" placeholder="e.g. Tomatoes" className="bg-white rounded-md border-1 border-rose-100 pl-2 py-1 shadow-sm shadow-olive-300 focus:outline focus:outline-rose-300 mb-1" />
+                <div className="grid grid-cols-[40%_40%_20%] gap-2 mt-4 mb-2">
+                    <div className="flex items-center">
+                        <div className="flex flex-col">
+                            <label htmlFor="ingredient">Ingredient</label> 
+                            <input type="text" name="ingredient" id="ingredient" placeholder="e.g. Tomatoes" className="bg-white rounded-md border-1 border-rose-100 pl-2 py-1 shadow-sm shadow-olive-300 focus:outline focus:outline-rose-300 field-sizing-fixed w-[100%]" />
+                        </div>
                     </div>
-                    <div className="flex flex-col">
-                        <label htmlFor="quantity">Quantity</label>
-                        <input type="text" name="quantity" id="quantity" placeholder="e.g. 200g" className=" bg-white rounded-md border-1 border-rose-100 pl-2 py-1 shadow-sm shadow-olive-300 focus:outline focus:outline-rose-300 mb-1" />
+                    <div className="flex items-center">
+                        <div className="flex flex-col">
+                            <label htmlFor="quantity">Quantity</label>
+                            <input type="text" name="quantity" id="quantity" placeholder="e.g. 200g" className=" bg-white rounded-md border-1 border-rose-100 pl-2 py-1 shadow-sm shadow-olive-300 focus:outline focus:outline-rose-300 field-sizing-fixed w-[100%]" />
+                        </div>
+                    </div>
+                    <div className="flex items-end">
+                        <AddButton label="Add ingredient" onClick={addIngredient} />
                     </div>
                 </div>
+                <p className="text-right text-rose-800 text-sm hidden mt-2" id="ingredient-quantity-error">Please input an ingredient to add it to the recipe!</p>
 
-                <div className="flex justify-end mb-4">
-                    <p className="text-right">Add ingredient</p>
-                    <button onClick={addIngredient} className="inline-flex items-center self-center text-rose-500 font-semibold hover:text-rose-700 bg-rose-200 hover:bg-rose-300 px-2 mx-2 rounded-full pb-1 cursor-pointer h-[28px]">+</button>
-                </div>
-                <p className="text-right text-rose-800 text-sm hidden mb-2" id="ingredient-quantity-error">Please input an ingredient to add it to the recipe!</p>
-
-                <div className="flex gap-4 mb-1">
-                    <div className="w-[40%] truncate">                        
-                        {ingredients.map(ingredient => {
-                            return (
-                                <p className="bg-olive-200 rounded-md border-1 border-olive-300 pl-2 text-sm py-1 mb-1">{ingredient.ingredient}</p>
-                            )
-                        })}
-                    </div>  
-                    <div className="w-[40%] ">
-                        {ingredients.map(ingredient => {                
-                            return (
-                                <p className="bg-olive-200 rounded-md border-1 border-olive-300 pl-2 text-sm py-1 mb-1">{ingredient.quantity}</p>
-                            )     
-                        })}
-                    </div>
-                    <div className="w-[20%]">
-                        {ingredients.map(ingredient => {
-                            return (
-                                <button onClick={() => {
-                                    setIngredients(
-                                        ingredients.filter(a => 
-                                            a.ingredient !== ingredient.ingredient
-                                        )
-                                    )
-                                }} key={ingredient.ingredient} id={ingredient.ingredient} className="bg-transparent rounded-md border-1 border-transparent pl-2 text-sm py-1 mb-1  font-bold text-rose-800 cursor-pointer">Remove</button>
-                            )
-                        })}
-                    </div>
-                </div>
+                {ingredients.map(ingredient => {
+                    return (
+                        <div className="grid grid-cols-[40%_40%_20%] gap-2" key={ingredient.ingredient} >
+                            <input value={ingredient.ingredient} disabled type="text" readOnly 
+                            className="bg-olive-200 border-1 border-olive-300 rounded-md pl-2 py-1 mb-1" />
+                            <input value={ingredient.quantity} disabled type="text" readOnly 
+                            className="bg-olive-200 border-1 border-olive-300 rounded-md pl-2 py-1 mb-1" />
+                            <RemoveButton label="Remove ingredient" onClick={removeIngredient} value={ingredient.ingredient} />        
+                        </div>
+                    )
+                })}
                 <p className="text-rose-800 text-sm mb-2">{ingredientsError}</p>
 
                 <p>Who can cook this recipe?</p>            
@@ -203,7 +199,7 @@ export default function Add() {
 
                 <label htmlFor="recipeLocation" className="mt-4">Where can this recipe be found?</label>
                 <input onChange={(e) => {setRecipeLocation(e.target.value)}}
-                type="text" name="recipeLocation" id="recipeLocation" placeholder="e.g. a link to a website / the name of a cookbook" className="bg-white rounded-md border-1 border-rose-100 pl-2 py-1 shadow-sm shadow-olive-300 focus:outline focus:outline-rose-300 mb-4" />
+                type="text" name="recipeLocation" id="recipeLocation" placeholder="e.g. a website / a cookbook" className="bg-white rounded-md border-1 border-rose-100 pl-2 py-1 shadow-sm shadow-olive-300 focus:outline focus:outline-rose-300 mb-4" />
 
                 <label htmlFor="lastCooked">When did you last cook this recipe?</label>
                 <input onChange={(e) => {setLastCooked(e.target.value)}} 

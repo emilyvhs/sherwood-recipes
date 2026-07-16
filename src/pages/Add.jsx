@@ -150,12 +150,12 @@ export default function Add() {
             <form className="flex flex-col" onSubmit={addRecipe}>
 
                 <FormName label="Name of recipe" value={name} onChange={(e) => {setName(e.target.value)}} />
-                <Error id="name-error-message" text={nameError} />
+                <Error text={nameError} />
 
                 <FormPortions label="Portions" value={portions} onChange={(e) => {setPortions(e.target.value)}} />
 
                 <FormIngredients onClick={addIngredient} />
-                <Error id="ingredients-input-error" text={ingredientsInputError} />    
+                <Error text={ingredientsInputError} />    
                 
                 {ingredients.map(ingredient => {
                     return (
@@ -168,7 +168,7 @@ export default function Add() {
                         </div>
                     )
                 })}
-                <p className="text-rose-800 text-sm mb-2">{ingredientsError}</p>
+                <Error text={ingredientsError} />                
 
                 <p>Who can cook this recipe?</p>            
                 {chefOptions.map(chef => {
@@ -181,7 +181,7 @@ export default function Add() {
                         </div>
                     )
                 })} 
-                <p className="text-rose-800 text-sm mb-2">{chefNamesError}</p>             
+                <Error text={chefNamesError} />
 
                 <label htmlFor="recipeLocation" className="mt-4">Where can this recipe be found?</label>
                 <input onChange={(e) => {setRecipeLocation(e.target.value)}}
@@ -190,11 +190,10 @@ export default function Add() {
                 <label htmlFor="lastCooked">When did you last cook this recipe?</label>
                 <input onChange={(e) => {setLastCooked(e.target.value)}} 
                 type="date" name="lastCooked" id="lastCooked" className="bg-white rounded-md border-1 border-rose-100 pl-2 py-1 shadow-sm shadow-olive-300 focus:outline focus:outline-rose-300 mb-4" />
-                <p className="text-rose-800 text-sm mb-2">{lastCookedError}</p>
+                <Error text={lastCookedError} />               
 
                 <input type="submit" value="Add new recipe" className="text-rose-500 font-semibold hover:text-rose-700 bg-rose-200 hover:bg-rose-300 px-2 mx-2 mt-4 rounded-full pb-1 cursor-pointer" />
-                <p className="text-rose-800 text-sm mb-2">{error}</p>
-
+                
                 <Error text={error} />
 
             </form>

@@ -4,6 +4,7 @@ import AddButton from "../atoms/ButtonAdd";
 import RemoveButton from "../atoms/ButtonRemove";
 import { useNavigate } from "react-router-dom";
 import FormName from "../components/FormName";
+import Error from "../atoms/Error";
 
 export default function Add() {
 
@@ -139,8 +140,6 @@ export default function Add() {
 
     useEffect(getChefOptions, []);
 
-    console.log(name);
-
     return (
         <div>
             <Header></Header>
@@ -148,8 +147,8 @@ export default function Add() {
             <form className="flex flex-col" onSubmit={addRecipe}>
 
                 <FormName label="Name of recipe" value={name} onChange={(e) => {setName(e.target.value)}} />
-                
-                <p className="text-rose-800 text-sm mb-2" id="name-error-message">{nameError}</p>
+
+                <Error id="name-error-message" text={nameError} />
 
                 <label htmlFor="portions">Portions</label>
                 <input onChange={(e) => {setPortions(e.target.value)}} 

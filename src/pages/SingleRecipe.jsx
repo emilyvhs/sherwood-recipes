@@ -112,16 +112,16 @@ export default function SingleRecipe() {
         if(!ingredientValue || ingredientValue === "") {
             error.classList.remove("hidden");
         } else if (!quantityValue || quantityValue === "") {
-            setIngredients([
-                ...ingredients,
-                { ingredient: ingredientValue, quantity: "n/a" }
+            setIngredients([                
+                { ingredient: ingredientValue, quantity: "n/a" },
+                ...ingredients
             ])
 
             document.getElementById('ingredient').value = "";
         } else {
-            setIngredients([
-                ...ingredients,
-                { ingredient: ingredientValue, quantity: quantityValue }
+            setIngredients([               
+                { ingredient: ingredientValue, quantity: quantityValue },
+                 ...ingredients
             ]);            
 
             document.getElementById('ingredient').value = "";
@@ -199,7 +199,7 @@ export default function SingleRecipe() {
 
     useEffect(getRecipe, []);
     useEffect(getChefOptions, []);
-    useEffect(handleCheck, [chefNames, chefOptions])  
+    useEffect(handleCheck, [chefNames, chefOptions]);
 
     return (
         <div>
@@ -258,19 +258,7 @@ export default function SingleRecipe() {
                         <H3 text="Ingredients"></H3>
                     </div>
 
-                    {ingredients.map(ingredient => {
-                        return (
-                            <div className="grid grid-cols-[40%_40%_20%] gap-2" key={ingredient.ingredient} >
-                                <input value={ingredient.ingredient} disabled type="text" readOnly 
-                                className="bg-olive-200 border-1 border-olive-300 rounded-md pl-2 py-1 mb-1" />
-                                <input value={ingredient.quantity} disabled type="text" readOnly 
-                                className="bg-olive-200 border-1 border-olive-300 rounded-md pl-2 py-1 mb-1" />
-                                <RemoveButton label="Remove ingredient" onClick={removeIngredient} value={ingredient.ingredient} />        
-                            </div>
-                        )
-                    })}
-
-                    <div className="grid grid-cols-[40%_40%_20%] gap-2 mt-4">
+                    <div className="grid grid-cols-[40%_40%_20%] gap-2 mb-2">
                         <div className="flex items-center">
                             <label htmlFor="ingredient" className="hidden">Ingredient</label> 
                             <input type="text" name="ingredient" id="ingredient" placeholder="e.g. Tomatoes" className="bg-white rounded-md border-1 border-rose-100 pl-2 py-1 shadow-sm shadow-olive-300 focus:outline focus:outline-rose-300 field-sizing-fixed w-[100%]" />
@@ -283,12 +271,25 @@ export default function SingleRecipe() {
                             <AddButton label="Add ingredient" onClick={addIngredient} />
                         </div>
                     </div>
+
                     <p className="text-right text-rose-800 text-sm hidden mt-2" id="ingredient-quantity-error">Please input an ingredient to add it to the recipe!</p>
 
-                    <div className="flex gap-2 justify-end mt-2">
+                    <div className="flex gap-2 justify-end mb-2">
                         <button onClick={editRecipe} value="ingredients" className="underline underline-offset-2 hover:decoration-wavy text-rose-700 hover:text-rose-500 cursor-pointer">Update</button>
                         <button onClick={getRecipe} className="underline underline-offset-2 hover:decoration-wavy text-rose-700 hover:text-rose-500 cursor-pointer">Cancel</button> 
                     </div>
+
+                    {ingredients.map(ingredient => {
+                        return (
+                            <div className="grid grid-cols-[40%_40%_20%] gap-2" key={ingredient.ingredient} >
+                                <input value={ingredient.ingredient} disabled type="text" readOnly 
+                                className="bg-olive-200 border-1 border-olive-300 rounded-md pl-2 py-1 mb-1" />
+                                <input value={ingredient.quantity} disabled type="text" readOnly 
+                                className="bg-olive-200 border-1 border-olive-300 rounded-md pl-2 py-1 mb-1" />
+                                <RemoveButton label="Remove ingredient" onClick={removeIngredient} value={ingredient.ingredient} />        
+                            </div>
+                        )
+                    })}
 
                 </form>                
                 <p id="ingredients-error-message" className="text-right text-rose-800 text-sm mb-2 hidden">{error}</p>

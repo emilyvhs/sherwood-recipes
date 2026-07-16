@@ -50,16 +50,16 @@ export default function Add() {
         if(!ingredientValue || ingredientValue === "") {
             error.classList.remove("hidden");
         } else if (!quantityValue || quantityValue === "") {
-            setIngredients([
-                ...ingredients,
-                { ingredient: ingredientValue, quantity: "n/a" }
-            ])
-
+            setIngredients([                
+                { ingredient: ingredientValue, quantity: "n/a" },
+                ...ingredients
+            ]);
+            
             document.getElementById('ingredient').value = "";
         } else {
-            setIngredients([
-                ...ingredients,
-                { ingredient: ingredientValue, quantity: quantityValue }
+            setIngredients([                
+                { ingredient: ingredientValue, quantity: quantityValue },
+                ...ingredients
             ]);            
 
             document.getElementById('ingredient').value = "";

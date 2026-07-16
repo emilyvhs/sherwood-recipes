@@ -1,6 +1,6 @@
 import H2 from "../atoms/H2";
 import { Link } from "react-router-dom";
-import AddButton from "../atoms/AddButton";
+import AddButton from "../atoms/ButtonAdd";
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
 

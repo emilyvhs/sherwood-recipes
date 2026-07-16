@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import Header from "../components/Header";
-import AddButton from "../atoms/AddButton";
-import RemoveButton from "../atoms/RemoveButton";
+import AddButton from "../atoms/ButtonAdd";
+import RemoveButton from "../atoms/ButtonRemove";
 import { useNavigate } from "react-router-dom";
+import FormName from "../components/FormName";
 
 export default function Add() {
 
@@ -138,14 +139,16 @@ export default function Add() {
 
     useEffect(getChefOptions, []);
 
+    console.log(name);
+
     return (
         <div>
             <Header></Header>
 
             <form className="flex flex-col" onSubmit={addRecipe}>
-                <label htmlFor="name">Name of recipe</label>
-                <input onChange={(e) => {setName(e.target.value)}} 
-                type="text" name="name" id="name" placeholder="e.g. Bean's Beans" className="bg-white rounded-md border-1 border-rose-100 pl-2 py-1 shadow-sm shadow-olive-300 focus:outline focus:outline-rose-300 mb-4" />
+
+                <FormName label="Name of recipe" value={name} onChange={(e) => {setName(e.target.value)}} />
+                
                 <p className="text-rose-800 text-sm mb-2" id="name-error-message">{nameError}</p>
 
                 <label htmlFor="portions">Portions</label>
@@ -187,9 +190,9 @@ export default function Add() {
                 <p>Who can cook this recipe?</p>            
                 {chefOptions.map(chef => {
                     return (
-                        <div className="flex items-center">                            
+                        <div className="flex items-center" key={chef._id}>
                             <input onChange={addChefName} type="checkbox" name={chef._id} className="appearance-none w-4 h-4 bg-white rounded-sm border-1 border-rose-100 pl-2 py-1 shadow-sm shadow-olive-300 focus:outline focus:outline-rose-300 checked:bg-rose-300 mr-1" value={chef.name} />
-                            <label htmlFor={chef._id} key={chef._id}>
+                            <label htmlFor={chef._id}>
                                 {chef.name}
                             </label>
                         </div>

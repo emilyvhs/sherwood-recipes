@@ -3,8 +3,8 @@ import H2 from "../atoms/H2";
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
 import H3 from "../atoms/H3";
-import RemoveButton from "../atoms/RemoveButton";
-import AddButton from "../atoms/AddButton";
+import RemoveButton from "../atoms/ButtonRemove";
+import AddButton from "../atoms/ButtonAdd";
 
 export default function SingleRecipe() {
     

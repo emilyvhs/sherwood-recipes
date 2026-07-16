@@ -8,6 +8,7 @@ import Error from "../atoms/Error";
 import FormName from "../components/FormName";
 import FormPortions from "../components/FormPortions";
 import FormIngredients from "../components/FormIngredients";
+import FormReadOnlyInput from "../components/FormReadOnlyInput";
 
 export default function Add() {
 
@@ -159,11 +160,9 @@ export default function Add() {
                 
                 {ingredients.map(ingredient => {
                     return (
-                        <div className="grid grid-cols-[40%_40%_20%] gap-2" key={ingredient.ingredient} >
-                            <input value={ingredient.ingredient} disabled type="text" readOnly 
-                            className="bg-olive-200 border-1 border-olive-300 rounded-md pl-2 py-1 mb-1" />
-                            <input value={ingredient.quantity} disabled type="text" readOnly 
-                            className="bg-olive-200 border-1 border-olive-300 rounded-md pl-2 py-1 mb-1" />
+                        <div className="grid grid-cols-[40%_40%_20%] gap-2" key={ingredient.ingredient}>
+                            <FormReadOnlyInput value={ingredient.ingredient} />
+                            <FormReadOnlyInput value={ingredient.quantity} />   
                             <RemoveButton label="Remove ingredient" onClick={removeIngredient} value={ingredient.ingredient} />        
                         </div>
                     )
@@ -193,7 +192,7 @@ export default function Add() {
                 <Error text={lastCookedError} />               
 
                 <input type="submit" value="Add new recipe" className="text-rose-500 font-semibold hover:text-rose-700 bg-rose-200 hover:bg-rose-300 px-2 mx-2 mt-4 rounded-full pb-1 cursor-pointer" />
-                
+
                 <Error text={error} />
 
             </form>

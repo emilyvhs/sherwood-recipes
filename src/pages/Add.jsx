@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import Header from "../components/Header";
 import AddButton from "../atoms/ButtonAdd";
 import RemoveButton from "../atoms/ButtonRemove";
-import { useNavigate } from "react-router-dom";
-import FormName from "../components/FormName";
 import Error from "../atoms/Error";
+import FormName from "../components/FormName";
 import FormPortions from "../components/FormPortions";
+import FormIngredients from "../components/FormIngredients";
 
 export default function Add() {
 
@@ -20,6 +22,7 @@ export default function Add() {
     const [error, setError] = useState("");
     const [nameError, setNameError] = useState("");
     const [ingredientsError, setIngredientsError] = useState("");
+    const [ingredientsInputError, setIngredientsInputError] = useState("");
     const [chefNamesError, setChefNamesError] = useState("");
     const [lastCookedError, setLastCookedError] = useState("");
 
@@ -37,21 +40,18 @@ export default function Add() {
 
         e.preventDefault();
 
+        setError("");
         setNameError("");
         setIngredientsError("");
+        setIngredientsInputError("");
         setChefNamesError("");
         setLastCookedError("");
         
         let ingredientValue = document.getElementById('ingredient').value.trim();
-        let quantityValue = document.getElementById('quantity').value.trim();
-        let error = document.getElementById('ingredient-quantity-error');
-
-        if(!error.classList.contains("hidden")) {
-            error.classList.add("hidden");
-        };
+        let quantityValue = document.getElementById('quantity').value.trim();        
 
         if(!ingredientValue || ingredientValue === "") {
-            error.classList.remove("hidden");
+            setIngredientsInputError("Please input an ingredient to add it to the recipe!")
         } else if (!quantityValue || quantityValue === "") {
             setIngredients([                
                 { ingredient: ingredientValue, quantity: "n/a" },
@@ -99,8 +99,10 @@ export default function Add() {
 
         e.preventDefault();
 
+        setError("");
         setNameError("");
         setIngredientsError("");
+        setIngredientsInputError("");
         setChefNamesError("");
         setLastCookedError("");
 
@@ -141,8 +143,6 @@ export default function Add() {
 
     useEffect(getChefOptions, []);
 
-    console.log(portions);
-
     return (
         <div>
             <Header></Header>
@@ -154,25 +154,9 @@ export default function Add() {
 
                 <FormPortions label="Portions" value={portions} onChange={(e) => {setPortions(e.target.value)}} />
 
-                <div className="grid grid-cols-[40%_40%_20%] gap-2 mt-4 mb-2">
-                    <div className="flex items-center">
-                        <div className="flex flex-col">
-                            <label htmlFor="ingredient">Ingredient</label> 
-                            <input type="text" name="ingredient" id="ingredient" placeholder="e.g. Tomatoes" className="bg-white rounded-md border-1 border-rose-100 pl-2 py-1 shadow-sm shadow-olive-300 focus:outline focus:outline-rose-300 field-sizing-fixed w-[100%]" />
-                        </div>
-                    </div>
-                    <div className="flex items-center">
-                        <div className="flex flex-col">
-                            <label htmlFor="quantity">Quantity</label>
-                            <input type="text" name="quantity" id="quantity" placeholder="e.g. 200g" className=" bg-white rounded-md border-1 border-rose-100 pl-2 py-1 shadow-sm shadow-olive-300 focus:outline focus:outline-rose-300 field-sizing-fixed w-[100%]" />
-                        </div>
-                    </div>
-                    <div className="flex items-end">
-                        <AddButton label="Add ingredient" onClick={addIngredient} />
-                    </div>
-                </div>
-                <p className="text-right text-rose-800 text-sm hidden mt-2" id="ingredient-quantity-error">Please input an ingredient to add it to the recipe!</p>
-
+                <FormIngredients onClick={addIngredient} />
+                <Error id="ingredients-input-error" text={ingredientsInputError} />    
+                
                 {ingredients.map(ingredient => {
                     return (
                         <div className="grid grid-cols-[40%_40%_20%] gap-2" key={ingredient.ingredient} >
@@ -210,6 +194,8 @@ export default function Add() {
 
                 <input type="submit" value="Add new recipe" className="text-rose-500 font-semibold hover:text-rose-700 bg-rose-200 hover:bg-rose-300 px-2 mx-2 mt-4 rounded-full pb-1 cursor-pointer" />
                 <p className="text-rose-800 text-sm mb-2">{error}</p>
+
+                <Error text={error} />
 
             </form>
         </div>

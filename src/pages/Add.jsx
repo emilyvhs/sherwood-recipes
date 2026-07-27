@@ -9,6 +9,7 @@ import FormName from "../components/FormName";
 import FormPortions from "../components/FormPortions";
 import FormIngredients from "../components/FormIngredients";
 import FormReadOnlyInput from "../components/FormReadOnlyInput";
+import FormRecipeLocation from "../components/FormRecipeLocation";
 
 export default function Add() {
 
@@ -167,9 +168,9 @@ export default function Add() {
                         </div>
                     )
                 })}
-                <Error text={ingredientsError} />                
+                <Error text={ingredientsError} /> 
 
-                <p>Who can cook this recipe?</p>            
+                <p className="mt-4">Who can cook this recipe?</p>            
                 {chefOptions.map(chef => {
                     return (
                         <div className="flex items-center" key={chef._id}>
@@ -182,9 +183,7 @@ export default function Add() {
                 })} 
                 <Error text={chefNamesError} />
 
-                <label htmlFor="recipeLocation" className="mt-4">Where can this recipe be found?</label>
-                <input onChange={(e) => {setRecipeLocation(e.target.value)}}
-                type="text" name="recipeLocation" id="recipeLocation" placeholder="e.g. a website / a cookbook" className="bg-white rounded-md border-1 border-rose-100 pl-2 py-1 shadow-sm shadow-olive-300 focus:outline focus:outline-rose-300 mb-4" />
+                <FormRecipeLocation label="Where can this recipe be found?" value={recipeLocation} onChange={(e) => {setRecipeLocation(e.target.value)}}></FormRecipeLocation>
 
                 <label htmlFor="lastCooked">When did you last cook this recipe?</label>
                 <input onChange={(e) => {setLastCooked(e.target.value)}} 

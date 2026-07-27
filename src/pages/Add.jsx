@@ -10,6 +10,7 @@ import FormPortions from "../components/FormPortions";
 import FormIngredients from "../components/FormIngredients";
 import FormReadOnlyInput from "../components/FormReadOnlyInput";
 import FormRecipeLocation from "../components/FormRecipeLocation";
+import FormLastCooked from "../components/FormLastCooked";
 
 export default function Add() {
 
@@ -185,9 +186,7 @@ export default function Add() {
 
                 <FormRecipeLocation label="Where can this recipe be found?" value={recipeLocation} onChange={(e) => {setRecipeLocation(e.target.value)}}></FormRecipeLocation>
 
-                <label htmlFor="lastCooked">When did you last cook this recipe?</label>
-                <input onChange={(e) => {setLastCooked(e.target.value)}} 
-                type="date" name="lastCooked" id="lastCooked" className="bg-white rounded-md border-1 border-rose-100 pl-2 py-1 shadow-sm shadow-olive-300 focus:outline focus:outline-rose-300 mb-4" />
+                <FormLastCooked label="When did you last cook this recipe?" value={lastCooked} onChange={(e) => {setLastCooked(e.target.value)}}></FormLastCooked>
                 <Error text={lastCookedError} />               
 
                 <input type="submit" value="Add new recipe" className="text-rose-500 font-semibold hover:text-rose-700 bg-rose-200 hover:bg-rose-300 px-2 mx-2 mt-4 rounded-full pb-1 cursor-pointer" />

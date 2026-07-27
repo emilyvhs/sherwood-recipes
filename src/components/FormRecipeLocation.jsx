@@ -3,7 +3,7 @@ export default function FormRecipeLocation({onChange, label, hiddenLabel = false
     return (
 
         <>
-            <label htmlFor="recipeLocation" className="mt-4">
+            <label htmlFor="recipeLocation" hidden={hiddenLabel} className="mt-4">
                 {label}
             </label>
 

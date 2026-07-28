@@ -5,6 +5,12 @@ import { useEffect, useState } from "react";
 import H3 from "../atoms/H3";
 import RemoveButton from "../atoms/ButtonRemove";
 import AddButton from "../atoms/ButtonAdd";
+import FormName from "../components/FormName";
+import FormPortions from "../components/FormPortions";
+import FormIngredients from "../components/FormIngredients";
+import FormReadOnlyInput from "../components/FormReadOnlyInput";
+import FormRecipeLocation from "../components/FormRecipeLocation";
+import FormLastCooked from "../components/FormLastCooked";
 
 export default function SingleRecipe() {
     
@@ -210,14 +216,12 @@ export default function SingleRecipe() {
                     <H2 text={name}></H2>
                     <button aria-label="Edit name" className="cursor-pointer" onClick={showEditor} value="name">✎</button>
                 </div>
-                <form className="flex justify-center gap-2 forms-group" id="name-form">                   
-                    <label htmlFor="name" className="hidden">Name of recipe</label>
-                    <input onChange={(e) => setName(e.target.value)} 
-                    type="text" name="name" id="name" placeholder={name} className="bg-white rounded-md border-1 border-rose-100 pl-2 py-1 shadow-sm shadow-olive-300 focus:outline focus:outline-rose-300" />
+                <form className="flex justify-center gap-2 forms-group" id="name-form">
+                    <FormName label="Name of recipe" hiddenLabel placeholder={name} value={name} onChange={(e) => setName(e.target.value)}></FormName>
                     <button onClick={editRecipe} value="name" className="underline underline-offset-2 hover:decoration-wavy text-rose-700 hover:text-rose-500 cursor-pointer">Update</button>
                     <button onClick={getRecipe} className="underline underline-offset-2 hover:decoration-wavy text-rose-700 hover:text-rose-500 cursor-pointer">Cancel</button>
-                </form>
-                <p id="name-error-message" className="text-right text-rose-800 text-sm mb-2 hidden">{error}</p>                  
+                </form>          
+                <p id="name-error-message" className="text-right text-rose-800 text-sm mb-2 hidden">{error}</p>
             </div>
 
             <div className="mb-4">                
@@ -227,13 +231,11 @@ export default function SingleRecipe() {
                 </div>
                 <form className="flex justify-center gap-2 forms-group" id="portions-form">                    
                     <div className="inline-block self-center"><H3 text="Serves "></H3></div>
-                    <label htmlFor="portions" className="hidden">Number of portions</label>
-                    <input onChange={(e) => setPortions(e.target.value)} 
-                    type="number" name="portions" id="portions" placeholder={portions} className="bg-white rounded-md border-1 border-rose-100 pl-2 py-1 shadow-sm shadow-olive-300 focus:outline focus:outline-rose-300" />
+                    <FormPortions onChange={(e) => setPortions(e.target.value)} label="Number of portions" hiddenLabel placeholder={portions} value={portions}></FormPortions>                    
                     <button onClick={editRecipe} value="portions" className="underline underline-offset-2 hover:decoration-wavy text-rose-700 hover:text-rose-500 cursor-pointer">Update</button>
                     <button onClick={getRecipe} className="underline underline-offset-2 hover:decoration-wavy text-rose-700 hover:text-rose-500 cursor-pointer">Cancel</button>
                 </form>  
-                <p id="portions-error-message" className="text-right text-rose-800 text-sm mb-2 hidden">{error}</p>                 
+                <p id="portions-error-message" className="text-right text-rose-800 text-sm mb-2 hidden">{error}</p>
             </div>
               
             <div className="mb-4">
@@ -257,21 +259,7 @@ export default function SingleRecipe() {
                     <div className="mb-1">
                         <H3 text="Ingredients"></H3>
                     </div>
-
-                    <div className="grid grid-cols-[40%_40%_20%] gap-2 mb-2">
-                        <div className="flex items-center">
-                            <label htmlFor="ingredient" className="hidden">Ingredient</label> 
-                            <input type="text" name="ingredient" id="ingredient" placeholder="e.g. Tomatoes" className="bg-white rounded-md border-1 border-rose-100 pl-2 py-1 shadow-sm shadow-olive-300 focus:outline focus:outline-rose-300 field-sizing-fixed w-[100%]" />
-                        </div>
-                        <div className="flex items-center">
-                            <label htmlFor="quantity" className="hidden">Quantity</label>
-                            <input type="text" name="quantity" id="quantity" placeholder="e.g. 200g" className=" bg-white rounded-md border-1 border-rose-100 pl-2 py-1 shadow-sm shadow-olive-300 focus:outline focus:outline-rose-300 field-sizing-fixed w-[100%]" />
-                        </div>
-                        <div className="flex items-center">
-                            <AddButton label="Add ingredient" onClick={addIngredient} />
-                        </div>
-                    </div>
-
+                    <FormIngredients onClick={addIngredient} hiddenIngredientLabel hiddenQuantityLabel></FormIngredients>
                     <p className="text-right text-rose-800 text-sm hidden mt-2" id="ingredient-quantity-error">Please input an ingredient to add it to the recipe!</p>
 
                     <div className="flex gap-2 justify-end mb-2">
@@ -282,10 +270,8 @@ export default function SingleRecipe() {
                     {ingredients.map(ingredient => {
                         return (
                             <div className="grid grid-cols-[40%_40%_20%] gap-2" key={ingredient.ingredient} >
-                                <input value={ingredient.ingredient} disabled type="text" readOnly 
-                                className="bg-olive-200 border-1 border-olive-300 rounded-md pl-2 py-1 mb-1" />
-                                <input value={ingredient.quantity} disabled type="text" readOnly 
-                                className="bg-olive-200 border-1 border-olive-300 rounded-md pl-2 py-1 mb-1" />
+                                <FormReadOnlyInput value={ingredient.ingredient} />
+                                <FormReadOnlyInput value={ingredient.quantity} />
                                 <RemoveButton label="Remove ingredient" onClick={removeIngredient} value={ingredient.ingredient} />        
                             </div>
                         )
@@ -302,10 +288,10 @@ export default function SingleRecipe() {
                     <button aria-label="Edit last cooked date" className="cursor-pointer pl-1" onClick={showEditor} value="lastCooked">✎</button>
                 </div>
                 <form className="flex gap-2 forms-group" id="lastCooked-form">
-                    <div className="inline-block self-center"><H3 text="Last cooked: "></H3></div>
-                    <label htmlFor="lastCooked" className="hidden">Last cooked</label>
-                    <input onChange={(e) => setLastCooked(e.target.value)}
-                    type="date" name="lastCooked" id="lastCooked" placeholder={lastCooked} className="bg-white rounded-md border-1 border-rose-100 pl-2 py-1 shadow-sm shadow-olive-300 focus:outline focus:outline-rose-300" />
+                    <div className="inline-block self-center">
+                        <H3 text="Last cooked: "></H3>
+                    </div>
+                    <FormLastCooked onChange={(e) => setLastCooked(e.target.value)} label="Last cooked" hiddenLabel value={lastCooked}></FormLastCooked>                    
                     <button onClick={editRecipe} value="lastCooked" className="underline underline-offset-2 hover:decoration-wavy text-rose-700 hover:text-rose-500 cursor-pointer">Update</button>
                     <button onClick={getRecipe} className="underline underline-offset-2 hover:decoration-wavy text-rose-700 hover:text-rose-500 cursor-pointer">Cancel</button> 
                 </form>
@@ -362,9 +348,7 @@ export default function SingleRecipe() {
                 </div>
                 <form className="flex gap-2 forms-group" id="recipeLocation-form">
                     <div className="inline-block self-center"><H3 text="Recipe location: "></H3></div>
-                    <label htmlFor="recipeLocation" className="hidden">Recipe location</label>
-                    <input onChange={(e) => setRecipeLocation(e.target.value)}
-                    type="text" name="recipeLocation" id="recipeLocation" placeholder={recipeLocation} className="bg-white rounded-md border-1 border-rose-100 pl-2 py-1 shadow-sm shadow-olive-300 focus:outline focus:outline-rose-300" /> 
+                    <FormRecipeLocation onChange={(e) => setRecipeLocation(e.target.value)} label="Recipe location" hiddenLabel placeholder={recipeLocation} value={recipeLocation}></FormRecipeLocation>
                     <button onClick={editRecipe} value="recipeLocation" className="underline underline-offset-2 hover:decoration-wavy text-rose-700 hover:text-rose-500 cursor-pointer">Update</button>
                     <button onClick={getRecipe} className="underline underline-offset-2 hover:decoration-wavy text-rose-700 hover:text-rose-500 cursor-pointer">Cancel</button>
                 </form>     

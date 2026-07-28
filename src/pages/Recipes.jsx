@@ -53,16 +53,11 @@ export default function Recipes() {
     useEffect(sortRecipesByLastCooked, [recipesData]);
 
     return (
-        <div>
+        <div className="md:flex md:flex-col md:items-center">
+
             <Header></Header>
 
-            <section className="flex items-center gap-2 mb-6">
-                <H2 text="Add new recipe"></H2>
-                <AddButton link={true} linkTo="/add" label="Add new recipe" />
-            </section>
-
-            <section className="p-4 border-y-3 border-dashed border-emerald-300">  
-
+            <section className="p-4 border-y-3 border-dashed border-emerald-300 md:w-1/2 md:px-10">
                 <div className="flex justify-between">             
                     <button onClick={sortRecipesByName} className="cursor-pointer flex items-center gap-2">
                         <H2 text="Recipe"></H2>
@@ -77,13 +72,18 @@ export default function Recipes() {
                 {recipes.map(recipe => {
                     return (
                         <div key={recipe._id} className="flex justify-between">
-                            <Link  to={`/recipes/${recipe._id}`} className="w-[50%] underline underline-offset-2 hover:decoration-wavy text-rose-700 hover:text-rose-500"><p>{recipe.name}</p></Link>
+                            <Link  to={`/recipes/${recipe._id}`} className="w-1/2 underline underline-offset-2 hover:decoration-wavy text-rose-700 hover:text-rose-500"><p>{recipe.name}</p></Link>
                             <p>{recipe.lastCooked.split('T')[0]}</p>
                         </div>
-                    );
-                })};
-                
+                    )
+                })}
             </section>
+
+            <section className="flex justify-end items-center gap-2 my-6 md:w-1/2">
+                <H2 text="Add new recipe"></H2>
+                <AddButton link={true} linkTo="/add" label="Add new recipe" />
+            </section>
+
         </div>
     );
 };

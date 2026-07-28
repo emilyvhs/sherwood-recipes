@@ -12,6 +12,7 @@ import FormReadOnlyInput from "../components/FormReadOnlyInput";
 import FormRecipeLocation from "../components/FormRecipeLocation";
 import FormLastCooked from "../components/FormLastCooked";
 import UpdateButton from "../atoms/ButtonUpdate";
+import CancelButton from "../atoms/ButtonCancel";
 
 export default function SingleRecipe() {
     
@@ -219,8 +220,8 @@ export default function SingleRecipe() {
                 </div>
                 <form className="flex justify-center gap-2 forms-group" id="name-form">
                     <FormName label="Name of recipe" hiddenLabel placeholder={name} value={name} onChange={(e) => setName(e.target.value)}></FormName>
-                    <UpdateButton onClick={editRecipe} value="name"></UpdateButton>                   
-                    <button onClick={getRecipe} className="underline underline-offset-2 hover:decoration-wavy text-rose-700 hover:text-rose-500 cursor-pointer">Cancel</button>
+                    <UpdateButton onClick={editRecipe} value="name"></UpdateButton>  
+                    <CancelButton onClick={getRecipe}></CancelButton>
                 </form>          
                 <p id="name-error-message" className="text-right text-rose-800 text-sm mb-2 hidden">{error}</p>
             </div>
@@ -234,7 +235,7 @@ export default function SingleRecipe() {
                     <div className="inline-block self-center"><H3 text="Serves "></H3></div>
                     <FormPortions onChange={(e) => setPortions(e.target.value)} label="Number of portions" hiddenLabel placeholder={portions} value={portions}></FormPortions>
                     <UpdateButton onClick={editRecipe} value="portions"></UpdateButton> 
-                    <button onClick={getRecipe} className="underline underline-offset-2 hover:decoration-wavy text-rose-700 hover:text-rose-500 cursor-pointer">Cancel</button>
+                    <CancelButton onClick={getRecipe}></CancelButton>
                 </form>  
                 <p id="portions-error-message" className="text-right text-rose-800 text-sm mb-2 hidden">{error}</p>
             </div>
@@ -265,7 +266,7 @@ export default function SingleRecipe() {
 
                     <div className="flex gap-2 justify-end mb-2">
                         <UpdateButton onClick={editRecipe} value="ingredients"></UpdateButton>
-                        <button onClick={getRecipe} className="underline underline-offset-2 hover:decoration-wavy text-rose-700 hover:text-rose-500 cursor-pointer">Cancel</button> 
+                        <CancelButton onClick={getRecipe}></CancelButton> 
                     </div>
 
                     {ingredients.map(ingredient => {
@@ -294,7 +295,7 @@ export default function SingleRecipe() {
                     </div>
                     <FormLastCooked onChange={(e) => setLastCooked(e.target.value)} label="Last cooked" hiddenLabel value={lastCooked}></FormLastCooked>     
                     <UpdateButton onClick={editRecipe} value="lastCooked"></UpdateButton>
-                    <button onClick={getRecipe} className="underline underline-offset-2 hover:decoration-wavy text-rose-700 hover:text-rose-500 cursor-pointer">Cancel</button> 
+                    <CancelButton onClick={getRecipe}></CancelButton> 
                 </form>
                 <p id="lastCooked-error-message" className="text-right text-rose-800 text-sm mb-2 hidden">{error}</p>
                 
@@ -334,7 +335,7 @@ export default function SingleRecipe() {
                     })}
                     <div className="flex gap-2 justify-end">
                         <UpdateButton onClick={editRecipe} value="chefNames"></UpdateButton>
-                        <button onClick={getRecipe} className="underline underline-offset-2 hover:decoration-wavy text-rose-700 hover:text-rose-500 cursor-pointer">Cancel</button> 
+                        <CancelButton onClick={getRecipe}></CancelButton> 
                     </div>
                 </form>
                 
@@ -351,7 +352,7 @@ export default function SingleRecipe() {
                     <div className="inline-block self-center"><H3 text="Recipe location: "></H3></div>
                     <FormRecipeLocation onChange={(e) => setRecipeLocation(e.target.value)} label="Recipe location" hiddenLabel placeholder={recipeLocation} value={recipeLocation}></FormRecipeLocation>
                     <UpdateButton onClick={editRecipe} value="recipeLocation"></UpdateButton>
-                    <button onClick={getRecipe} className="underline underline-offset-2 hover:decoration-wavy text-rose-700 hover:text-rose-500 cursor-pointer">Cancel</button>
+                    <CancelButton onClick={getRecipe}></CancelButton>
                 </form>     
                 <p id="recipeLocation-error-message" className="text-right text-rose-800 text-sm mb-2 hidden">{error}</p>          
             </div>

@@ -9,8 +9,6 @@ export default function Recipes() {
     const [recipesData, setRecipesData] = useState([]);
     const [recipes, setRecipes] = useState([]);
 
-    
-
     function getRecipes() {
         fetch(`${process.env.HOST}/api/recipes`)
             .then(res => res.json())
@@ -65,31 +63,25 @@ export default function Recipes() {
 
             <section className="p-4 border-y-3 border-dashed border-emerald-300">  
 
-                <div className="grid grid-cols-2">
-                    <div>
-                        <button onClick={sortRecipesByName} className="cursor-pointer flex items-center gap-2">
-                            <H2 text="Recipe"></H2>
-                            <div className="text-emerald-700 text-xl font-bold transition-transform duration-150 " id="name-arrow">▶</div>                           
-                        </button>                        
-                        {recipes.map(recipe => {
-                            return (
-                                <Link key={recipe._id} to={`/recipes/${recipe._id}`} className="underline underline-offset-2 hover:decoration-wavy text-rose-700 hover:text-rose-500"><p>{recipe.name}</p></Link>
-                            )
-                        })}
-                    </div>
-                    <div>
-                        <button onClick={sortRecipesByLastCooked} className="cursor-pointer flex items-center gap-2">
-                            <H2 text="Last cooked" ></H2>
-                            <div className="text-emerald-700 text-xl font-bold transition-transform duration-150 rotate-90" id="last-cooked-arrow">▶</div>
-                            
-                        </button>
-                        {recipes.map(recipe => {
-                            return (
-                                <p key={recipe._id}>{recipe.lastCooked.split('T')[0]}</p>
-                            )
-                        })}                       
-                    </div>
+                <div className="flex justify-between">             
+                    <button onClick={sortRecipesByName} className="cursor-pointer flex items-center gap-2">
+                        <H2 text="Recipe"></H2>
+                        <div className="text-emerald-700 text-xl font-bold transition-transform duration-150 " id="name-arrow">▶</div>                           
+                    </button>     
+                    <button onClick={sortRecipesByLastCooked} className="cursor-pointer flex items-center gap-2">
+                        <H2 text="Last cooked" ></H2>
+                        <div className="text-emerald-700 text-xl font-bold transition-transform duration-150 rotate-90" id="last-cooked-arrow">▶</div>
+                    </button>
                 </div>
+                                        
+                {recipes.map(recipe => {
+                    return (
+                        <div key={recipe._id} className="flex justify-between">
+                            <Link  to={`/recipes/${recipe._id}`} className="w-[50%] underline underline-offset-2 hover:decoration-wavy text-rose-700 hover:text-rose-500"><p>{recipe.name}</p></Link>
+                            <p>{recipe.lastCooked.split('T')[0]}</p>
+                        </div>
+                    );
+                })};
                 
             </section>
         </div>

@@ -210,155 +210,156 @@ export default function SingleRecipe() {
     useEffect(handleCheck, [chefNames, chefOptions]);
 
     return (
-        <div>
-            <Header></Header>
-        
-            <div>
-                <div className="flex justify-center gap-2 blocks-group" id="name-block">
-                    <H2 text={name}></H2>
-                    <button aria-label="Edit name" className="cursor-pointer" onClick={showEditor} value="name">✎</button>
-                </div>
-                <form className="flex justify-center gap-2 forms-group" id="name-form">
-                    <FormName label="Name of recipe" hiddenLabel placeholder={name} value={name} onChange={(e) => setName(e.target.value)}></FormName>
-                    <UpdateButton onClick={editRecipe} value="name"></UpdateButton>  
-                    <CancelButton onClick={getRecipe}></CancelButton>
-                </form>          
-                <p id="name-error-message" className="text-right text-rose-800 text-sm mb-2 hidden">{error}</p>
-            </div>
+        <div className="md:flex md:justify-center">
+            <div className="md:w-1/3 md:px-8">
 
-            <div className="mb-4">                
-                <div className="flex justify-center gap-2 blocks-group" id="portions-block">
-                    <H3 text={`Serves ${portions}`}></H3>
-                    <button aria-label="Edit portions" className="cursor-pointer" onClick={showEditor} value="portions">✎</button>
-                </div>
-                <form className="flex justify-center gap-2 forms-group" id="portions-form">                    
-                    <div className="inline-block self-center"><H3 text="Serves "></H3></div>
-                    <FormPortions onChange={(e) => setPortions(e.target.value)} label="Number of portions" hiddenLabel placeholder={portions} value={portions}></FormPortions>
-                    <UpdateButton onClick={editRecipe} value="portions"></UpdateButton> 
-                    <CancelButton onClick={getRecipe}></CancelButton>
-                </form>  
-                <p id="portions-error-message" className="text-right text-rose-800 text-sm mb-2 hidden">{error}</p>
-            </div>
-              
-            <div className="mb-4">
-                <div className="blocks-group" id="ingredients-block">
-                    <div className="flex gap-2">
-                        <H3 text="Ingredients"></H3>
-                        <button aria-label="Edit ingredients" className="cursor-pointer" onClick={showEditor} value="ingredients">✎</button>
+                <Header></Header>
+            
+                <div>
+                    <div className="flex justify-center gap-2 blocks-group" id="name-block">
+                        <H2 text={name}></H2>
+                        <button aria-label="Edit name" className="cursor-pointer" onClick={showEditor} value="name">✎</button>
                     </div>
-                    {ingredients.map(ingredient => {
-                        return (
-                            <div className="grid grid-cols-2" key={ingredient.ingredient}>
-                                <p>{ingredient.ingredient}</p>
-                                <p>{ingredient.quantity}</p>
-                            </div>
-                        )
-                    })}
+                    <form className="flex justify-center gap-2 forms-group" id="name-form">
+                        <FormName label="Name of recipe" hiddenLabel placeholder={name} value={name} onChange={(e) => setName(e.target.value)}></FormName>
+                        <UpdateButton onClick={editRecipe} value="name"></UpdateButton>  
+                        <CancelButton onClick={getRecipe}></CancelButton>
+                    </form>          
+                    <p id="name-error-message" className="text-right text-rose-800 text-sm mb-2 hidden">{error}</p>
+                </div>
+
+                <div className="mb-4">                
+                    <div className="flex justify-center gap-2 blocks-group" id="portions-block">
+                        <H3 text={`Serves ${portions}`}></H3>
+                        <button aria-label="Edit portions" className="cursor-pointer" onClick={showEditor} value="portions">✎</button>
+                    </div>
+                    <form className="flex justify-center gap-2 forms-group" id="portions-form">                    
+                        <div className="inline-block self-center"><H3 text="Serves "></H3></div>
+                        <FormPortions onChange={(e) => setPortions(e.target.value)} label="Number of portions" hiddenLabel placeholder={portions} value={portions}></FormPortions>
+                        <UpdateButton onClick={editRecipe} value="portions"></UpdateButton> 
+                        <CancelButton onClick={getRecipe}></CancelButton>
+                    </form>  
+                    <p id="portions-error-message" className="text-right text-rose-800 text-sm mb-2 hidden">{error}</p>
                 </div>
                 
-                <form className="forms-group" id="ingredients-form">
-
-                    <div className="mb-1">
-                        <H3 text="Ingredients"></H3>
-                    </div>
-                    <FormIngredients onClick={addIngredient} hiddenIngredientLabel hiddenQuantityLabel></FormIngredients>
-                    <p className="text-right text-rose-800 text-sm hidden mt-2" id="ingredient-quantity-error">Please input an ingredient to add it to the recipe!</p>
-
-                    <div className="flex gap-2 justify-end mb-2">
-                        <UpdateButton onClick={editRecipe} value="ingredients"></UpdateButton>
-                        <CancelButton onClick={getRecipe}></CancelButton> 
-                    </div>
-
-                    {ingredients.map(ingredient => {
-                        return (
-                            <div className="grid grid-cols-[40%_40%_20%] gap-2" key={ingredient.ingredient} >
-                                <FormReadOnlyInput value={ingredient.ingredient} />
-                                <FormReadOnlyInput value={ingredient.quantity} />
-                                <RemoveButton label="Remove ingredient" onClick={removeIngredient} value={ingredient.ingredient} />        
-                            </div>
-                        )
-                    })}
-
-                </form>                
-                <p id="ingredients-error-message" className="text-right text-rose-800 text-sm mb-2 hidden">{error}</p>
-            </div>
-
-            <div className="mb-4">
-                <div className="flex gap-1 blocks-group" id="lastCooked-block">
-                    <H3 text="Last cooked:"></H3>
-                    <p>{lastCooked}</p>
-                    <button aria-label="Edit last cooked date" className="cursor-pointer pl-1" onClick={showEditor} value="lastCooked">✎</button>
-                </div>
-                <form className="flex gap-2 forms-group" id="lastCooked-form">
-                    <div className="inline-block self-center">
-                        <H3 text="Last cooked: "></H3>
-                    </div>
-                    <FormLastCooked onChange={(e) => setLastCooked(e.target.value)} label="Last cooked" hiddenLabel value={lastCooked}></FormLastCooked>     
-                    <UpdateButton onClick={editRecipe} value="lastCooked"></UpdateButton>
-                    <CancelButton onClick={getRecipe}></CancelButton> 
-                </form>
-                <p id="lastCooked-error-message" className="text-right text-rose-800 text-sm mb-2 hidden">{error}</p>
-                
-            </div>
-
-            <div className="mb-4">
-                <div className="flex gap-1 blocks-group" id="chefNames-block">
-                   <H3 text="Can be cooked by:"></H3>
-                   {chefNames.map(name => {
-                        if (name !== chefNames[chefNames.length - 1]) {
+                <div className="mb-4">
+                    <div className="blocks-group" id="ingredients-block">
+                        <div className="flex gap-2 md:justify-center md:pb-4">
+                            <H3 text="Ingredients"></H3>
+                            <button aria-label="Edit ingredients" className="cursor-pointer" onClick={showEditor} value="ingredients">✎</button>
+                        </div>
+                        {ingredients.map(ingredient => {
                             return (
-                                <p key={name}>{name}, </p>
+                                <div className="grid grid-cols-2 gap-20 md:flex md:justify-between" key={ingredient.ingredient}>
+                                    <p>{ingredient.ingredient}</p>
+                                    <p className="md:text-right md:pr-5">{ingredient.quantity}</p>
+                                </div>
                             )
-                        } else {
-                            return (
-                                <p key={name}>{name}</p>
-                            )
-                        }                    
-                    })}
-                    <button aria-label="Edit who can cook this recipe" className="cursor-pointer pl-1" onClick={showEditor} value="chefNames">✎</button>
-                </div>
-                
-                <form className="forms-group" id="chefNames-form">
-                    <H3 text="Can be cooked by:"></H3>
+                        })}
+                    </div>
                     
-                    {checked?.map(chef => {
-                        
-                        return (
-                            <div className="flex items-center" key={chef._id}>
-                                <input onChange={addChefName} type="checkbox" name={chef._id} className="appearance-none w-4 h-4 bg-white rounded-sm border-1 border-rose-100 pl-2 py-1 shadow-sm shadow-olive-300 focus:outline focus:outline-rose-300 checked:bg-rose-300 mr-1" value={chef.name} defaultChecked={chef.checked} />
-                                <label htmlFor={chef._id}>
-                                    {chef.name}
-                                </label>
-                            </div>
-                        )
-                       
-                    })}
-                    <div className="flex gap-2 justify-end">
-                        <UpdateButton onClick={editRecipe} value="chefNames"></UpdateButton>
-                        <CancelButton onClick={getRecipe}></CancelButton> 
-                    </div>
-                </form>
-                
-                <p id="chefNames-error-message" className="text-right text-rose-800 text-sm mb-2 hidden">{error}</p>
-            </div>            
+                    <form className="forms-group" id="ingredients-form">
+                        <div className="mb-1">
+                            <H3 text="Ingredients"></H3>
+                        </div>
+                        <FormIngredients onClick={addIngredient} hiddenIngredientLabel hiddenQuantityLabel></FormIngredients>
+                        <p className="text-right text-rose-800 text-sm hidden mt-2" id="ingredient-quantity-error">Please input an ingredient to add it to the recipe!</p>
 
-            <div className="mb-4">
-                <div className="flex gap-1 blocks-group" id="recipeLocation-block">
-                    <H3 text="Recipe location:"></H3>
-                    <p>{recipeLocation}</p>
-                    <button aria-label="Edit recipe location" className="cursor-pointer pl-1" onClick={showEditor} value="recipeLocation">✎</button>
+                        <div className="flex gap-2 justify-end mb-2">
+                            <UpdateButton onClick={editRecipe} value="ingredients"></UpdateButton>
+                            <CancelButton onClick={getRecipe}></CancelButton> 
+                        </div>
+
+                        {ingredients.map(ingredient => {
+                            return (
+                                <div className="grid grid-cols-[40%_40%_20%] gap-2" key={ingredient.ingredient} >
+                                    <FormReadOnlyInput value={ingredient.ingredient} />
+                                    <FormReadOnlyInput value={ingredient.quantity} />
+                                    <RemoveButton label="Remove ingredient" onClick={removeIngredient} value={ingredient.ingredient} />        
+                                </div>
+                            )
+                        })}
+
+                    </form>                
+                    <p id="ingredients-error-message" className="text-right text-rose-800 text-sm mb-2 hidden">{error}</p>
                 </div>
-                <form className="flex gap-2 forms-group" id="recipeLocation-form">
-                    <div className="inline-block self-center"><H3 text="Recipe location: "></H3></div>
-                    <FormRecipeLocation onChange={(e) => setRecipeLocation(e.target.value)} label="Recipe location" hiddenLabel placeholder={recipeLocation} value={recipeLocation}></FormRecipeLocation>
-                    <UpdateButton onClick={editRecipe} value="recipeLocation"></UpdateButton>
-                    <CancelButton onClick={getRecipe}></CancelButton>
-                </form>     
-                <p id="recipeLocation-error-message" className="text-right text-rose-800 text-sm mb-2 hidden">{error}</p>          
-            </div>
 
-            <Link to={`/delete/${_id}`} className="underline underline-offset-2 hover:decoration-wavy text-rose-700 hover:text-rose-500 cursor-pointer">Delete this recipe</Link> 
-           
+                <div className="mb-4">
+                    <div className="flex gap-1 blocks-group" id="lastCooked-block">
+                        <H3 text="Last cooked:"></H3>
+                        <p>{lastCooked}</p>
+                        <button aria-label="Edit last cooked date" className="cursor-pointer pl-1" onClick={showEditor} value="lastCooked">✎</button>
+                    </div>
+                    <form className="flex gap-2 forms-group" id="lastCooked-form">
+                        <div className="inline-block self-center">
+                            <H3 text="Last cooked: "></H3>
+                        </div>
+                        <FormLastCooked onChange={(e) => setLastCooked(e.target.value)} label="Last cooked" hiddenLabel value={lastCooked}></FormLastCooked>     
+                        <UpdateButton onClick={editRecipe} value="lastCooked"></UpdateButton>
+                        <CancelButton onClick={getRecipe}></CancelButton> 
+                    </form>
+                    <p id="lastCooked-error-message" className="text-right text-rose-800 text-sm mb-2 hidden">{error}</p>                
+                </div>
+
+                <div className="mb-4">
+                    <div className="flex gap-1 blocks-group" id="chefNames-block">
+                    <H3 text="Can be cooked by:"></H3>
+                    {chefNames.map(name => {
+                            if (name !== chefNames[chefNames.length - 1]) {
+                                return (
+                                    <p key={name}>{name}, </p>
+                                )
+                            } else {
+                                return (
+                                    <p key={name}>{name}</p>
+                                )
+                            }                    
+                        })}
+                        <button aria-label="Edit who can cook this recipe" className="cursor-pointer pl-1" onClick={showEditor} value="chefNames">✎</button>
+                    </div>
+                    
+                    <form className="forms-group" id="chefNames-form">
+                        <H3 text="Can be cooked by:"></H3>
+                        
+                        {checked?.map(chef => {
+                            
+                            return (
+                                <div className="flex items-center" key={chef._id}>
+                                    <input onChange={addChefName} type="checkbox" name={chef._id} className="appearance-none w-4 h-4 bg-white rounded-sm border-1 border-rose-100 pl-2 py-1 shadow-sm shadow-olive-300 focus:outline focus:outline-rose-300 checked:bg-rose-300 mr-1" value={chef.name} defaultChecked={chef.checked} />
+                                    <label htmlFor={chef._id}>
+                                        {chef.name}
+                                    </label>
+                                </div>
+                            )
+                        
+                        })}
+                        <div className="flex gap-2 justify-end">
+                            <UpdateButton onClick={editRecipe} value="chefNames"></UpdateButton>
+                            <CancelButton onClick={getRecipe}></CancelButton> 
+                        </div>
+                    </form>
+                    
+                    <p id="chefNames-error-message" className="text-right text-rose-800 text-sm mb-2 hidden">{error}</p>
+                </div>            
+
+                <div className="mb-4">
+                    <div className="flex gap-1 blocks-group" id="recipeLocation-block">
+                        <H3 text="Recipe location:"></H3>
+                        <p>{recipeLocation}</p>
+                        <button aria-label="Edit recipe location" className="cursor-pointer pl-1" onClick={showEditor} value="recipeLocation">✎</button>
+                    </div>
+                    <form className="flex gap-2 forms-group" id="recipeLocation-form">
+                        <div className="inline-block self-center"><H3 text="Recipe location: "></H3></div>
+                        <FormRecipeLocation onChange={(e) => setRecipeLocation(e.target.value)} label="Recipe location" hiddenLabel placeholder={recipeLocation} value={recipeLocation}></FormRecipeLocation>
+                        <UpdateButton onClick={editRecipe} value="recipeLocation"></UpdateButton>
+                        <CancelButton onClick={getRecipe}></CancelButton>
+                    </form>     
+                    <p id="recipeLocation-error-message" className="text-right text-rose-800 text-sm mb-2 hidden">{error}</p>          
+                </div>
+
+                <Link to={`/delete/${_id}`} className="underline underline-offset-2 hover:decoration-wavy text-rose-700 hover:text-rose-500 cursor-pointer">Delete this recipe</Link> 
+            
+            </div>
         </div>
     );
 };

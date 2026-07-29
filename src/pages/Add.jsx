@@ -147,10 +147,10 @@ export default function Add() {
     useEffect(getChefOptions, []);
 
     return (
-        <div>
+        <div className="md:flex md:flex-col md:items-center">
             <Header></Header>
 
-            <form className="flex flex-col" onSubmit={addRecipe}>
+            <form className="flex flex-col md:w-1/3" onSubmit={addRecipe}>
 
                 <FormName label="Name of recipe" value={name} onChange={(e) => {setName(e.target.value)}} />
                 <Error text={nameError} />
@@ -189,7 +189,7 @@ export default function Add() {
                 <FormLastCooked label="When did you last cook this recipe?" value={lastCooked} onChange={(e) => {setLastCooked(e.target.value)}}></FormLastCooked>
                 <Error text={lastCookedError} />               
 
-                <input type="submit" value="Add new recipe" className="text-rose-500 font-semibold hover:text-rose-700 bg-rose-200 hover:bg-rose-300 px-2 mx-2 mt-4 rounded-full pb-1 cursor-pointer" />
+                <input type="submit" value="Add new recipe" className="text-rose-500 font-semibold hover:text-rose-700 bg-rose-200 hover:bg-rose-300 px-2 mx-2 mt-4 rounded-full pb-1 cursor-pointer md:flex"/>
 
                 <Error text={error} />
 

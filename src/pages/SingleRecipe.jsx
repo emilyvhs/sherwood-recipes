@@ -39,15 +39,19 @@ export default function SingleRecipe() {
     };
 
     function handleCheck() {
+        let chefNamesBlock = document.getElementById("chefNames-block");
         chefOptions.map(chef => {
             if (chefNames.includes(chef.name)) {
                 chef.checked = true
                 setChecked([...chefOptions])
+                
             } else {
                 chef.checked = false
                 setChecked([...chefOptions])
+                
             }
         });
+        chefNamesBlock.classList.remove("hidden")
     };
 
     function getRecipe() {
@@ -207,7 +211,7 @@ export default function SingleRecipe() {
 
     useEffect(getRecipe, []);
     useEffect(getChefOptions, []);
-    useEffect(handleCheck, [chefNames, chefOptions]);
+    useEffect(handleCheck, [chefNames]);
 
     return (
         <div className="md:flex md:justify-center">
@@ -302,7 +306,7 @@ export default function SingleRecipe() {
                 </div>
 
                 <div className="mb-4">
-                    <div className="flex gap-1 blocks-group" id="chefNames-block">
+                    <div className="flex gap-1 blocks-group hidden" id="chefNames-block">
                     <H3 text="Can be cooked by:"></H3>
                     {chefNames.map(name => {
                             if (name !== chefNames[chefNames.length - 1]) {

@@ -215,7 +215,7 @@ export default function SingleRecipe() {
 
     return (
         <div className="md:flex md:justify-center">
-            <div className="md:w-1/3 md:px-8">
+            <div className="md:w-1/3 md:px-8 ">
 
                 <Header></Header>
             

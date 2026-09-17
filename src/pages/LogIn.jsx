@@ -1,5 +1,9 @@
+import Header from "../components/Header";
+
 export default function LogIn() {
     return (
-        <div></div>
+        <div>
+            <Header></Header>
+        </div>
     )
 }

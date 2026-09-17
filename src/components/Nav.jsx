@@ -1,10 +1,20 @@
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 
 export default function Nav() {
 
+    const { pathname } = useLocation();
+
     let loggedIn = false;
 
-    if (loggedIn) {
+    if (pathname === "/login") {
+
+        return (
+            <nav className="mt-1 mb-8 text-rose-500 font-semibold flex justify-center">
+                <Link to="/" className="hover:text-rose-700 bg-rose-200 hover:bg-rose-300 px-2 mx-2 rounded-full">Home</Link>
+            </nav>
+        );
+
+    } else if (loggedIn) {
 
         return (
             <nav className="mt-1 mb-8 text-rose-500 font-semibold flex justify-center">

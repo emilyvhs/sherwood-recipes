@@ -1,5 +1,7 @@
 import { useState } from "react";
 import Header from "../components/Header";
+import { useNavigate } from "react-router-dom";
+import Error from "../atoms/Error";
 
 export default function Register() {
 
@@ -7,9 +9,21 @@ export default function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    const [userError, setUserError] = useState("");
+    const [usernameError, setUsernameError] = useState("");
+    const [emailError, setEmailError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+
+    let navigate = useNavigate();
+
     function addUser(e) {
 
         e.preventDefault();
+
+        setUserError("");
+        setUsernameError("");
+        setEmailError("");
+        setPasswordError("");
 
         const data = {
             "username": username,
@@ -30,7 +44,22 @@ export default function Register() {
         fetch(`${process.env.HOST}/api/users/register`, requestOptions)
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+
+                if (data.success === false && data.userExistsError === true) {
+                    setUserError(data.message);
+
+                } else if (data.success === false && data.passwordLengthError === true) {
+                    setPasswordError(data.message);
+                
+                } else if (data.errors && data.success === false) {
+                    setUsernameError(data.errors.username.message ? data.errors.username.message : "");
+                    setEmailError(data.errors.email.message ? data.errors.email.message : "");
+                    setPasswordError(data.errors.password.message ? data.errors.password.message : "");
+                    
+                } else {
+                    console.log(data);
+                    navigate("/recipes");
+                }
             });
     };
 
@@ -38,7 +67,7 @@ export default function Register() {
         <div className="md:flex md:flex-col md:items-center">
             <Header></Header>
 
-            <form className="flex flex-col md:w-1/3">
+            <form method="POST" onSubmit={addUser} className="flex flex-col md:w-1/3">
 
                 <label htmlFor="username">
                     Username
@@ -53,6 +82,7 @@ export default function Register() {
                     shadow-sm shadow-olive-300 
                     focus:outline focus:outline-rose-300"
                 />
+                <Error text={usernameError} />
 
                 <label htmlFor="email">
                     Email address
@@ -67,6 +97,7 @@ export default function Register() {
                     shadow-sm shadow-olive-300 
                     focus:outline focus:outline-rose-300"
                 />
+                <Error text={emailError} />
 
                 <label htmlFor="password">
                     Password
@@ -81,11 +112,14 @@ export default function Register() {
                     shadow-sm shadow-olive-300 
                     focus:outline focus:outline-rose-300"
                 />
+                <Error text={passwordError} />
 
                 <input 
-                    type="submit" value="Register" onClick={addUser} 
+                    type="submit" value="Register" 
                     className="text-rose-500 font-semibold hover:text-rose-700 bg-rose-200 hover:bg-rose-300 px-2 mx-2 mt-4 rounded-full pb-1 cursor-pointer md:flex"
                 />
+                <Error text={userError} />
+
             </form>
         </div>
     )

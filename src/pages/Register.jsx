@@ -9,6 +9,7 @@ export default function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    const [error, setError] = useState("");
     const [userError, setUserError] = useState("");
     const [usernameError, setUsernameError] = useState("");
     const [emailError, setEmailError] = useState("");
@@ -20,6 +21,7 @@ export default function Register() {
 
         e.preventDefault();
 
+        setError("");
         setUserError("");
         setUsernameError("");
         setEmailError("");
@@ -45,21 +47,24 @@ export default function Register() {
             .then(res => res.json())
             .then(data => {
 
-                if (data.success === false && data.userExistsError === true) {
+                if (data.userExistsError === true) {
                     setUserError(data.message);
 
-                } else if (data.success === false && data.passwordLengthError === true) {
+                } else if (data.passwordLengthError === true) {
                     setPasswordError(data.message);
                 
-                } else if (data.errors && data.success === false) {
+                } else if (data.errors) {
                     setUsernameError(data.errors.username.message ? data.errors.username.message : "");
                     setEmailError(data.errors.email.message ? data.errors.email.message : "");
                     setPasswordError(data.errors.password.message ? data.errors.password.message : "");
+
+                } else if (data.success === false) {
+                setError(data.message ? data.message : "Unknown error occured! Please contact admin or try again later");
                     
                 } else {
                     console.log(data);
                     navigate("/recipes");
-                }
+                };
             });
     };
 
@@ -119,6 +124,7 @@ export default function Register() {
                     className="text-rose-500 font-semibold hover:text-rose-700 bg-rose-200 hover:bg-rose-300 px-2 mx-2 mt-4 rounded-full pb-1 cursor-pointer md:flex"
                 />
                 <Error text={userError} />
+                <Error text={error} />
 
             </form>
         </div>

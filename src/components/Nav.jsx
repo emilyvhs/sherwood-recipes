@@ -6,6 +6,10 @@ export default function Nav() {
 
     let loggedIn = false;
 
+    if (localStorage.getItem("id") !== "") {
+        loggedIn = true;
+    };
+
     if (pathname === "/login") {
 
         return (

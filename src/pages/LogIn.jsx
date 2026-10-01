@@ -52,7 +52,8 @@ export default function LogIn() {
 
                 } else {
                     console.log(data);
-                    navigate("/recipes");
+                    localStorage.setItem("id", data.id);
+                    navigate("/recipes");                   
                 };
             });
     };

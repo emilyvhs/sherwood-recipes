@@ -20,6 +20,8 @@ export default function Add() {
         navigate("/login");
     };
 
+    let userId = localStorage.getItem("id");
+
     const [name, setName] = useState("");
     const [portions, setPortions] = useState(0);
     const [ingredients, setIngredients] = useState([]);
@@ -119,7 +121,8 @@ export default function Add() {
             "ingredients": ingredients,
             "recipeLocation": recipeLocation,
             "chefNames": chefNames,
-            "lastCooked": lastCooked
+            "lastCooked": lastCooked,
+            "userId": userId
         };
 
         const requestOptions = {

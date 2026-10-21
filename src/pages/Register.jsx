@@ -59,10 +59,12 @@ export default function Register() {
                     setPasswordError(data.errors.password.message ? data.errors.password.message : "");
 
                 } else if (data.success === false) {
-                setError(data.message ? data.message : "Unknown error occured! Please contact admin or try again later");
+                    setError(data.message ? data.message : "Unknown error occured! Please contact admin or try again later");
                     
-                } else {
-                    console.log(data);
+                } else {             
+                    localStorage.setItem("id", data.data._id);
+                    localStorage.setItem("username", data.data.username);
+                    localStorage.setItem("loggedIn", "true");
                     navigate("/recipes");
                 };
             });

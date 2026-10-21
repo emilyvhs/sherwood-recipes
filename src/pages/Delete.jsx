@@ -4,12 +4,17 @@ import Header from "../components/Header";
 
 export default function Delete() {
 
+    let loggedIn = localStorage.getItem("loggedIn");
+    let navigate = useNavigate();
+
+    if (loggedIn !== 'true') {
+        navigate("/login");
+    };
+
     const {_id} = useParams();
     
     const [name, setName] = useState("");
     const [error, setError] = useState("");
-
-    let navigate = useNavigate();
 
     function getRecipeName() {
         fetch(`${process.env.HOST}/api/recipes/${_id}`)

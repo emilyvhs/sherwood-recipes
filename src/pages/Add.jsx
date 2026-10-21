@@ -13,6 +13,13 @@ import FormLastCooked from "../components/FormLastCooked";
 
 export default function Add() {
 
+    let loggedIn = localStorage.getItem("loggedIn");
+    let navigate = useNavigate();
+
+    if (loggedIn !== 'true') {
+        navigate("/login");
+    };
+
     const [name, setName] = useState("");
     const [portions, setPortions] = useState(0);
     const [ingredients, setIngredients] = useState([]);
@@ -27,8 +34,6 @@ export default function Add() {
     const [ingredientsInputError, setIngredientsInputError] = useState("");
     const [chefNamesError, setChefNamesError] = useState("");
     const [lastCookedError, setLastCookedError] = useState("");
-
-    let navigate = useNavigate();
   
     function getChefOptions() {
         fetch(`${process.env.HOST}/api/chefs`)

@@ -1,10 +1,9 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import H2 from "../atoms/H2";
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
 import H3 from "../atoms/H3";
 import RemoveButton from "../atoms/ButtonRemove";
-import AddButton from "../atoms/ButtonAdd";
 import FormName from "../components/FormName";
 import FormPortions from "../components/FormPortions";
 import FormIngredients from "../components/FormIngredients";
@@ -15,10 +14,16 @@ import UpdateButton from "../atoms/ButtonUpdate";
 import CancelButton from "../atoms/ButtonCancel";
 
 export default function SingleRecipe() {
+
+    let loggedIn = localStorage.getItem("loggedIn");
+    let navigate = useNavigate();
+
+    if (loggedIn !== 'true') {
+        navigate("/login");
+    };
     
     const {_id} = useParams();
 
-    const [recipe, setRecipe] = useState("");
     const [name, setName] = useState("");
     const [portions, setPortions] = useState(0);
     const [ingredients, setIngredients] = useState([]);
@@ -73,8 +78,7 @@ export default function SingleRecipe() {
 
         fetch(`${process.env.HOST}/api/recipes/${_id}`)
             .then(res => res.json())
-            .then(recipe => {
-                setRecipe(recipe.data);
+            .then(recipe => { 
                 setName(recipe.data.name);
                 setPortions(recipe.data.portions);
                 setIngredients(recipe.data.ingredients);

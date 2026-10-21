@@ -9,8 +9,10 @@ export default function Recipes() {
     const [recipesData, setRecipesData] = useState([]);
     const [recipes, setRecipes] = useState([]);
 
+    let userId = localStorage.getItem("id");
+
     function getRecipes() {
-        fetch(`${process.env.HOST}/api/recipes`)
+        fetch(`${process.env.HOST}/api/recipes/user/${userId}`)
             .then(res => res.json())
             .then(recipes => {   
                 setRecipesData(recipes.data);

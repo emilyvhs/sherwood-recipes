@@ -53,6 +53,7 @@ export default function LogIn() {
                 } else {
                     console.log(data);
                     localStorage.setItem("id", data.id);
+                    localStorage.setItem("username", data.username);
                     navigate("/recipes");                   
                 };
             });

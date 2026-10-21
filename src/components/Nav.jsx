@@ -6,8 +6,6 @@ export default function Nav() {
 
     let loggedIn = false;
 
-    console.log(localStorage.getItem("id"));
-
     if (localStorage.getItem("id") !== "" && localStorage.getItem("id") !== null && localStorage.getItem("id") !== undefined) {
         loggedIn = true;
     };

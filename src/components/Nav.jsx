@@ -4,16 +4,10 @@ export default function Nav() {
 
     const { pathname } = useLocation();
     let navigate = useNavigate();
-
-    let loggedIn = false;
-
-    if (localStorage.getItem("id") !== "" && localStorage.getItem("id") !== null && localStorage.getItem("id") !== undefined) {
-        loggedIn = true;
-    };
+    let loggedIn = localStorage.getItem("loggedIn");   
 
     function logoutUser() {
-        localStorage.clear();
-        loggedIn = false;
+        localStorage.clear();    
         navigate("/");
     };
 
@@ -25,7 +19,7 @@ export default function Nav() {
             </nav>
         );
 
-    } else if (loggedIn) {
+    } else if (loggedIn === "true") {
 
         return (
             <nav className="mt-1 mb-8 text-rose-500 font-semibold flex justify-center">

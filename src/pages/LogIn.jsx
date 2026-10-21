@@ -50,10 +50,10 @@ export default function LogIn() {
                 } else if (data.success === false) {
                     setError(data.message ? data.message : "Unknown error occured! Please contact admin or try again later");
 
-                } else {
-                    console.log(data);
+                } else {            
                     localStorage.setItem("id", data.id);
                     localStorage.setItem("username", data.username);
+                    localStorage.setItem("loggedIn", "true");
                     navigate("/recipes");                   
                 };
             });

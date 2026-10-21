@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Header from "../components/Header";
-import AddButton from "../atoms/ButtonAdd";
 import RemoveButton from "../atoms/ButtonRemove";
 import Error from "../atoms/Error";
 import FormName from "../components/FormName";
